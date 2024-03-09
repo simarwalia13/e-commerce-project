@@ -1,0 +1,151 @@
+import axios from "axios";
+import { useAtom } from "jotai";
+import React, { useEffect, useState } from "react";
+import { atomPrice, priceChangeStopAtom } from "./store";
+import { RxCross2 } from "react-icons/rx";
+
+const Rugs = () => {
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [getData, setGetData] = useState([]);
+  const [priceChangeStop] = useAtom(priceChangeStopAtom);
+  console.log("priceChangeStop", priceChangeStop);
+  const [price, setPrice] = useAtom(atomPrice);
+  const [prevPrice, setPrevPrice] = useState(price);
+  // console.log("prevPrice", prevPrice);
+  const [prevProductLength, setPrevProductLength] = useState(0); // Initialize with 0
+  const [getImageData, setGetImageData] = useState();
+  useEffect(() => {
+    axios
+      .get("/Data.json")
+      .then((response) => {
+        setGetData(response?.data);
+
+        setPrevProductLength(() => {
+          const filteredData = response?.data.filter(
+            (product) =>
+              product.productCategory === "Rug" &&
+              product.productPrice <= prevPrice
+          );
+          return filteredData.length;
+        });
+
+        setGetImageData(() => {
+          const filteredData = response?.data.filter(
+            (product) =>
+              product.productCategory === "Rug" &&
+              product.productPrice <= prevPrice
+          );
+          return filteredData;
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [prevPrice]);
+
+  useEffect(() => {
+    if (priceChangeStop === true) {
+      setPrevPrice(price);
+    }
+  }, [price, priceChangeStop]);
+
+  const shopRugs = getData?.filter((product) => {
+    return product.productCategory === "Rug";
+  });
+
+  const resetPrice = () => {
+    setPrice(85.0);
+  };
+
+  const productLength = () => {
+    if (priceChangeStop === true) {
+      return shopRugs.length;
+    } else {
+      return prevProductLength;
+    }
+  };
+  return (
+    <div>
+      <div>
+        <div className="border border-red-400 w-full ">
+          <div className="border mb-[85px] ">
+            {/* heading section */}
+            <div className="flex flex-col items-center justify-center">
+              <div className="text-6xl mb-3 mt-8">Rugs</div>
+              <p className="w-fit text-center">
+                This is your category description. It’s a great place to tell
+                customers what this category is
+                <br /> about, connect with your audience and draw attention to
+                your products.
+              </p>
+            </div>
+          </div>
+          {/* filter Section ui */}
+          {price < 85.0 && (
+            <div className="flex items-center gap-x-2 mb-4">
+              <div className="flex gap-x-2 items-center w-fit px-3 ml-3 bg-gray-300">
+                <div className="">$59.50 -${prevPrice}</div>
+                <RxCross2
+                  onClick={resetPrice}
+                  size={15}
+                  className="cursor-pointer"
+                />
+              </div>
+              <div onClick={resetPrice} className="cursor-pointer">
+                Clear all
+              </div>
+            </div>
+          )}
+
+          {price <= 85.0 && (
+            <div className="text-md mb-3 ml-4 opacity-90">
+              {productLength()} products
+            </div>
+          )}
+
+          <div className="grid grid-cols-3 gap-y-12 border border-green-500  ml-[8px]">
+            {getImageData?.map((product, index) => (
+              <div key={product?.productId} className=" relative ">
+                <div className="relative w-[90%] ">
+                  <img
+                    src={
+                      hoveredIndex === index
+                        ? product.imageTwo
+                        : product.imageOne
+                    }
+                    alt={`slide${product?.productId}_combined`}
+                    className="max-w-full h-auto cursor-pointer"
+                    onMouseEnter={() => setHoveredIndex(index)}
+                    onMouseLeave={() => setHoveredIndex(null)}
+                  />
+                  {hoveredIndex === index && (
+                    <button
+                      className={`absolute bottom-0 left-0 right-0 bg-white  ${
+                        hoveredIndex === index
+                          ? "transition ease-in-out 	duration-800 bg-opacity-80"
+                          : ""
+                      }   pointer-events-none p-2 text-center `}
+                      onClick={() => {
+                        console.log(`Quick  : ${product?.productId}`);
+                      }}
+                    >
+                      Quick View
+                    </button>
+                  )}
+                </div>
+                {/* product description */}
+                <div className="mt-2 text-lg flex flex-col items-center">
+                  <div className="">{product.productCategory}</div>
+                  <div className="  ">{product.productPrice}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+          {/* card section */}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Rugs;
