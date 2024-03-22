@@ -6,7 +6,7 @@ import { RxCross2 } from "react-icons/rx";
 
 const Lights = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [getData, setGetData] = useState([]);
+  // const [getData, setGetData] = useState([]);
   const [priceChangeStop] = useAtom(priceChangeStopAtom);
   console.log("priceChangeStop", priceChangeStop);
   const [price, setPrice] = useAtom(atomPrice);
@@ -18,7 +18,7 @@ const Lights = () => {
     axios
       .get("/Data.json")
       .then((response) => {
-        setGetData(response?.data);
+        // setGetData(response?.data);
 
         setPrevProductLength(() => {
           const filteredData = response?.data.filter(
@@ -49,24 +49,13 @@ const Lights = () => {
     }
   }, [price, priceChangeStop]);
 
-  const shopLights = getData?.filter((product) => {
-    return product.productCategory === "Lighting";
-  });
-
   const resetPrice = () => {
     setPrice(85.0);
   };
 
-  const productLength = () => {
-    if (priceChangeStop === true) {
-      return shopLights.length;
-    } else {
-      return prevProductLength;
-    }
-  };
   return (
     <div>
-      <div className="  border border-red-400 w-full ">
+      <div className="  border border-red-900 w-full ">
         <div className="border mb-[85px] ">
           {/* heading section */}
           <div className="flex flex-col items-center justify-center">
@@ -98,14 +87,14 @@ const Lights = () => {
 
         {price <= 85.0 && (
           <div className="text-md mb-3 ml-4 opacity-90">
-            {productLength()} products
+            {prevProductLength} products
           </div>
         )}
 
-        <div className="grid grid-cols-3 gap-y-8 border border-green-500  ml-[8px]">
+        <div className="grid grid-cols-3 gap-y-8 border border-green-500  ">
           {getImageData?.map((product, index) => (
             <div key={product?.productId} className=" relative ">
-              <div className="relative w-[90%] ">
+              <div className="relative w-[85%] ">
                 <img
                   src={
                     hoveredIndex === index ? product.imageTwo : product.imageOne
@@ -115,6 +104,22 @@ const Lights = () => {
                   onMouseEnter={() => setHoveredIndex(index)}
                   onMouseLeave={() => setHoveredIndex(null)}
                 />
+                {product.isProductNew === "yes" && (
+                  <div className="absolute bottom-[96%] px-2 py-[2px] text-sm bg-[#3F5C58] text-white">
+                    New
+                  </div>
+                )}
+                {product.productOnSale === "true" && (
+                  <div className="absolute bottom-[96%] px-2 py-[2px] text-sm bg-[#3F5C58] text-white">
+                    Sale
+                  </div>
+                )}
+                {product.isProductBestseller === "1" && (
+                  <div className="absolute bottom-[96%] px-2 py-[2px] text-sm bg-[#3F5C58] text-white">
+                    Bestseller
+                  </div>
+                )}
+
                 {hoveredIndex === index && (
                   <button
                     className={`absolute bottom-0 left-0 right-0 bg-white  ${

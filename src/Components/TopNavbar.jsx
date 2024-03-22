@@ -4,8 +4,17 @@ import { IoMdCart } from "react-icons/io";
 import { BiLogoFacebook } from "react-icons/bi";
 import { FaInstagram } from "react-icons/fa";
 import { TiSocialTwitter } from "react-icons/ti";
+import { useAtom } from "jotai";
+import { showCartt } from "./store";
 
 const TopNavbar = () => {
+  const [, setCartt] = useAtom(showCartt);
+  // console.log("cartt", cartt);
+
+  const handleCartClick = () => {
+    console.log("Cart clicked");
+    setCartt((changeCart) => !changeCart);
+  };
   return (
     <div>
       <div className="w-full bg-white py-4  border border-red-600">
@@ -21,12 +30,14 @@ const TopNavbar = () => {
           <div className="flex items-center gap-x-5 ">
             <div className="border-red-300 flex items-center gap-x-2">
               <IoPersonCircleSharp size={32} />
-              <button className="text-md ">Login</button>
+              <button className="text-md select-none">Login</button>
             </div>
-            <button className="flex gap-x-2">
-              <IoMdCart size={28} />
-              <div className="">0</div>
-            </button>
+            <div className="flex gap-x-2">
+              <div onClick={handleCartClick} className="cursor-pointer">
+                <IoMdCart className="cursor-pointer " size={28} />
+              </div>
+              <div className="select-none">0</div>
+            </div>
           </div>
         </div>
       </div>

@@ -1,24 +1,37 @@
 import axios from "axios";
 import { useAtom } from "jotai";
 import React, { useEffect, useState } from "react";
-import { atomPrice, priceChangeStopAtom } from "./store";
+import {
+  atomPrice,
+  cardDetails,
+  cardRender,
+  priceChangeStopAtom,
+} from "./store";
 import { RxCross2 } from "react-icons/rx";
+
+import PopUpCard from "./PopUpCard";
 
 const Furniture = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [getData, setGetData] = useState([]);
+  // const [getData, setGetData] = useState([]);
   const [priceChangeStop] = useAtom(priceChangeStopAtom);
-  console.log("priceChangeStop", priceChangeStop);
+  // console.log("priceChangeStop", priceChangeStop);
   const [price, setPrice] = useAtom(atomPrice);
   const [prevPrice, setPrevPrice] = useState(price);
   // console.log("prevPrice", prevPrice);
-  const [prevProductLength, setPrevProductLength] = useState(0); // Initialize with 0
+  const [prevProductLength, setPrevProductLength] = useState(0);
+  // console.log("prevProductLength", prevProductLength);
   const [getImageData, setGetImageData] = useState();
+  const [popUp, setpopUp] = useAtom(cardRender);
+  console.log("popUp", popUp);
+  const [, setCardId] = useAtom(cardDetails);
+  // const [hovered, setHovered] = useState(false);
+
   useEffect(() => {
     axios
       .get("/Data.json")
       .then((response) => {
-        setGetData(response?.data);
+        // setGetData(response?.data);
 
         setPrevProductLength(() => {
           const filteredData = response?.data.filter(
@@ -49,21 +62,14 @@ const Furniture = () => {
     }
   }, [price, priceChangeStop]);
 
-  const shopAll = getData?.filter((product) => {
-    return product.productCategory === "Furniture";
-  });
-
   const resetPrice = () => {
     setPrice(85.0);
   };
 
-  const productLength = () => {
-    if (priceChangeStop === true) {
-      return shopAll.length;
-    } else {
-      return prevProductLength;
-    }
+  const handleImageClick = (index) => {
+    setHoveredIndex(index);
   };
+
   return (
     <div className="  border border-red-400 w-full ">
       <div className="border mb-[85px] ">
@@ -97,47 +103,69 @@ const Furniture = () => {
 
       {price <= 85.0 && (
         <div className="text-md mb-3 ml-4 opacity-90">
-          {productLength()} products
+          {prevProductLength} products
         </div>
       )}
 
-      <div className="grid grid-cols-3 gap-y-8 border border-green-500  ml-[8px]">
+      <div className="grid grid-cols-3 gap-y-8 border border-green-500  ">
         {getImageData?.map((product, index) => (
           <div key={product?.productId} className=" relative ">
-            <div className="relative w-[90%] ">
+            <div className="relative w-[85%] ">
               <img
                 src={
                   hoveredIndex === index ? product.imageTwo : product.imageOne
                 }
                 alt={`slide${product?.productId}_combined`}
                 className="max-w-full h-auto cursor-pointer"
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
+                onClick={() => handleImageClick(index)}
               />
+              {product.isProductNew === "yes" && (
+                <div className="absolute bottom-[96%] px-2 py-[2px] text-sm bg-[#3F5C58] text-white">
+                  New
+                </div>
+              )}
+              {product.productOnSale === "true" && (
+                <div className="absolute bottom-[96%] px-2 py-[2px] text-sm bg-[#3F5C58] text-white">
+                  Sale
+                </div>
+              )}
+              {product.isProductBestseller === "1" && (
+                <div className="absolute bottom-[96%] px-2 py-[2px] text-sm bg-[#3F5C58] text-white">
+                  Bestseller
+                </div>
+              )}
+
               {hoveredIndex === index && (
-                <button
-                  className={`absolute bottom-0 left-0 right-0 bg-white  ${
-                    hoveredIndex === index
-                      ? "transition ease-in-out 	duration-800 bg-opacity-80"
-                      : ""
-                  }   pointer-events-none p-2 text-center `}
-                  onClick={() => {
-                    console.log(`Quick  : ${product?.productId}`);
-                  }}
-                >
-                  Quick View
-                </button>
+                <div className="">
+                  <div
+                    className=" absolute z-20 cursor-pointer bottom-0 left-0 right-0 bg-white bg-opacity-60 p-2 text-center "
+                    onClick={() => {
+                      setpopUp(true);
+                      console.log(`Quick  : ${product?.productId}`);
+                      setCardId(product?.productId);
+                      // setCardId(index);
+                    }}
+                  >
+                    Quick View
+                  </div>
+                </div>
               )}
             </div>
             {/* product description */}
             <div className="mt-2 text-lg flex flex-col items-center">
               <div className="">{product.productCategory}</div>
-              <div className="  ">{product.productPrice}</div>
+              <div className=" ">{product.productPrice}</div>
             </div>
           </div>
         ))}
       </div>
       {/* card section */}
+
+      {popUp === true && (
+        <div className="">
+          <PopUpCard />
+        </div>
+      )}
     </div>
   );
 };

@@ -6,19 +6,21 @@ import { RxCross2 } from "react-icons/rx";
 
 const Rugs = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [getData, setGetData] = useState([]);
+  // const [getData, setGetData] = useState([]);
   const [priceChangeStop] = useAtom(priceChangeStopAtom);
   console.log("priceChangeStop", priceChangeStop);
   const [price, setPrice] = useAtom(atomPrice);
   const [prevPrice, setPrevPrice] = useState(price);
   // console.log("prevPrice", prevPrice);
-  const [prevProductLength, setPrevProductLength] = useState(0); // Initialize with 0
+  const [prevProductLength, setPrevProductLength] = useState(0);
   const [getImageData, setGetImageData] = useState();
+  const [popUpCard, setPopUpCard] = useState(false);
+  console.log("popUpCard", popUpCard);
   useEffect(() => {
     axios
       .get("/Data.json")
       .then((response) => {
-        setGetData(response?.data);
+        // setGetData(response?.data);
 
         setPrevProductLength(() => {
           const filteredData = response?.data.filter(
@@ -49,21 +51,10 @@ const Rugs = () => {
     }
   }, [price, priceChangeStop]);
 
-  const shopRugs = getData?.filter((product) => {
-    return product.productCategory === "Rug";
-  });
-
   const resetPrice = () => {
     setPrice(85.0);
   };
 
-  const productLength = () => {
-    if (priceChangeStop === true) {
-      return shopRugs.length;
-    } else {
-      return prevProductLength;
-    }
-  };
   return (
     <div>
       <div>
@@ -99,14 +90,14 @@ const Rugs = () => {
 
           {price <= 85.0 && (
             <div className="text-md mb-3 ml-4 opacity-90">
-              {productLength()} products
+              {prevProductLength} products
             </div>
           )}
 
-          <div className="grid grid-cols-3 gap-y-12 border border-green-500  ml-[8px]">
+          <div className="grid grid-cols-3 gap-y-12 border border-green-500  ">
             {getImageData?.map((product, index) => (
               <div key={product?.productId} className=" relative ">
-                <div className="relative w-[90%] ">
+                <div className="relative w-[85%] ">
                   <img
                     src={
                       hoveredIndex === index
@@ -118,6 +109,22 @@ const Rugs = () => {
                     onMouseEnter={() => setHoveredIndex(index)}
                     onMouseLeave={() => setHoveredIndex(null)}
                   />
+
+                  {product.isProductNew === "yes" && (
+                    <div className="absolute bottom-[96%] px-2 py-[2px] text-sm bg-[#3F5C58] text-white">
+                      New
+                    </div>
+                  )}
+                  {product.productOnSale === "true" && (
+                    <div className="absolute bottom-[96%] px-2 py-[2px] text-sm bg-[#3F5C58] text-white">
+                      Sale
+                    </div>
+                  )}
+                  {product.isProductBestseller === "1" && (
+                    <div className="absolute bottom-[96%] px-2 py-[2px] text-sm bg-[#3F5C58] text-white">
+                      Bestseller
+                    </div>
+                  )}
                   {hoveredIndex === index && (
                     <button
                       className={`absolute bottom-0 left-0 right-0 bg-white  ${
@@ -126,6 +133,7 @@ const Rugs = () => {
                           : ""
                       }   pointer-events-none p-2 text-center `}
                       onClick={() => {
+                        setPopUpCard(true);
                         console.log(`Quick  : ${product?.productId}`);
                       }}
                     >

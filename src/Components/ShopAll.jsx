@@ -8,11 +8,11 @@ const ShopAll = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [getData, setGetData] = useState([]);
   const [priceChangeStop] = useAtom(priceChangeStopAtom);
-  console.log("priceChangeStop", priceChangeStop);
+
   const [price, setPrice] = useAtom(atomPrice);
   const [prevPrice, setPrevPrice] = useState(price);
-  // console.log("prevPrice", prevPrice);
-  const [prevProductLength, setPrevProductLength] = useState(0); // Initialize with 0
+
+  const [prevProductLength, setPrevProductLength] = useState(0);
   const [getImageData, setGetImageData] = useState();
   useEffect(() => {
     axios
@@ -59,11 +59,12 @@ const ShopAll = () => {
       return prevProductLength;
     }
   };
+
   return (
-    <div className="  border border-red-400 w-full ">
-      <div className="border mb-[85px] ">
+    <div className="  border border-red-400  ">
+      <div className="border  mb-[85px] ">
         {/* heading section */}
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col  items-center justify-center ">
           <div className="text-6xl mb-3 mt-8">All Products</div>
           <p className="w-fit text-center">
             This is your category description. It’s a great place to tell
@@ -96,10 +97,10 @@ const ShopAll = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-3 gap-y-[30px] border border-green-500  ml-[8px]">
+      <div className="grid grid-cols-3 gap-y-[50px] border border-green-500 ">
         {getImageData?.map((product, index) => (
           <div key={product?.productId} className=" relative ">
-            <div className="relative w-[90%] ">
+            <div className="relative w-[85%] ">
               <img
                 src={
                   hoveredIndex === index ? product.imageTwo : product.imageOne
@@ -109,6 +110,23 @@ const ShopAll = () => {
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
               />
+
+              {product.isProductNew === "yes" && (
+                <div className="absolute bottom-[96%] px-2 py-[2px] text-sm bg-[#3F5C58] text-white">
+                  New
+                </div>
+              )}
+              {product.productOnSale === "true" && (
+                <div className="absolute bottom-[96%] px-2 py-[2px] text-sm bg-[#3F5C58] text-white">
+                  Sale
+                </div>
+              )}
+              {product.isProductBestseller === "1" && (
+                <div className="absolute bottom-[96%] px-2 py-[2px] text-sm bg-[#3F5C58] text-white">
+                  Bestseller
+                </div>
+              )}
+
               {hoveredIndex === index && (
                 <button
                   className={`absolute bottom-0 left-0 right-0 bg-white  ${
