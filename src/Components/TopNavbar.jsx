@@ -5,15 +5,16 @@ import { BiLogoFacebook } from "react-icons/bi";
 import { FaInstagram } from "react-icons/fa";
 import { TiSocialTwitter } from "react-icons/ti";
 import { useAtom } from "jotai";
-import { showCartt } from "./store";
+import { atomShow } from "./store";
+import ShowCart from "./ShowCart";
 
 const TopNavbar = () => {
-  const [, setCartt] = useAtom(showCartt);
-  // console.log("cartt", cartt);
+  const [cartt, setCartt] = useAtom(atomShow);
+  console.log("cartt", cartt);
 
   const handleCartClick = () => {
     console.log("Cart clicked");
-    setCartt((changeCart) => !changeCart);
+    setCartt(true);
   };
   return (
     <div>
@@ -41,6 +42,8 @@ const TopNavbar = () => {
           </div>
         </div>
       </div>
+
+      {cartt === true && <ShowCart />}
     </div>
   );
 };

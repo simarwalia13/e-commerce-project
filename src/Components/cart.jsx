@@ -1,20 +1,27 @@
 import { useAtom } from "jotai";
-import React from "react";
-import { showCartt } from "./store";
+import React, { useEffect } from "react";
+import { atomCartId } from "./store";
+import axios from "axios";
 
-const cart = () => {
-  const [cartt] = useAtom(showCartt);
-  console.log("cart", cartt);
+const Cart = () => {
+  const [cartId] = useAtom(atomCartId);
+  console.log("cartId", cartId);
 
+  useEffect(() => {
+    axios
+      .get(`/Data.json?=${cartId}`)
+      .then((res) => {
+        console.log("res", res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [cartId]);
   return (
     <div>
-      {cartt === true && (
-        <div className="top-0 right-0 w-[35vw] bg-blue-600  p-10 pl-20 text-white fixed h-full z-50">
-          sss
-        </div>
-      )}
+      <div className=""></div>
     </div>
   );
 };
 
-export default cart;
+export default Cart;

@@ -18,8 +18,12 @@ import Navbar from "./Navbar";
 import TopNavbar from "./TopNavbar";
 import { useAtom } from "jotai";
 import { atomData } from "./store";
+import { useNavigate } from "react-router-dom";
+import BrandDesigner from "./BrandDesigner";
 
 const Home = () => {
+  const navigate = useNavigate();
+
   const images = [BgImage1, BgImage2, BgImage3];
   const brandImages = [BdImage1, BdImage2, BdImage3, BdImage4, BdImage5];
 
@@ -86,7 +90,10 @@ const Home = () => {
               </p>
               <p className=" text-white w-fit mb-8">own text and edit me. </p>
             </div>
-            <div className="text-xl border bg-[#35373C]  w-fit font-md bg-black px-[50px] py-2 text-white cursor-pointer hover:bg-white hover:text-black shadow-2xl">
+            <div
+              onClick={() => navigate("/shopAll")}
+              className="text-xl border bg-[#35373C]  cursor-pointer w-fit font-md bg-black px-[50px] py-2 text-white cursor-pointer hover:bg-white hover:text-black shadow-2xl"
+            >
               Shop Now
             </div>
           </div>
@@ -131,7 +138,12 @@ const Home = () => {
                 ></path>
               </g>
             </svg>
-            <button className="  text-xl  text-black  ">Furniture</button>
+            <button
+              onClick={() => navigate("/furniture")}
+              className="  text-xl  text-black  "
+            >
+              Furniture
+            </button>
           </div>
 
           <div className="flex justify-center items-center border-r-[1px] border-b-[1px] border-black gap-x-2 py-[50px] bg-white  w-full">
@@ -158,7 +170,12 @@ const Home = () => {
                 ></path>
               </g>
             </svg>
-            <button className="  text-xl  text-black  ">Lighting</button>
+            <button
+              onClick={() => navigate("/lighting")}
+              className="  text-xl  text-black  "
+            >
+              Lighting
+            </button>
           </div>
 
           <div className="flex justify-center items-center border-r-[1px] border-b-[1px] border-black gap-x-2 py-[50px] bg-white  w-full">
@@ -190,7 +207,12 @@ const Home = () => {
                 ></path>
               </g>
             </svg>
-            <button className="  text-xl  text-black  ">Rugs</button>
+            <button
+              onClick={() => navigate("/rugs")}
+              className="  text-xl  text-black  "
+            >
+              Rugs
+            </button>
           </div>
 
           <div className="flex justify-center items-center  border-b-[1px] border-black gap-x-2 py-[50px] bg-white  w-full">
@@ -241,7 +263,12 @@ const Home = () => {
                 ></path>
               </g>
             </svg>
-            <button className="  text-xl  text-black  ">Sale</button>
+            <button
+              onClick={() => navigate("/sale")}
+              className="  text-xl  text-black  "
+            >
+              Sale
+            </button>
           </div>
         </div>
       </div>
@@ -264,6 +291,7 @@ const Home = () => {
           <div
             className="text-lg  bg-[#35373C]  w-fit  bg-black px-[20px] py-2 text-white cursor-pointer hover:bg-white hover:text-black hover:border hover:border-black"
             data-aos="fade-right"
+            onClick={() => navigate("/furniture")}
           >
             Shop Furniture
           </div>
@@ -303,24 +331,8 @@ const Home = () => {
       </div>
 
       {/* brand designer */}
-      <div className="mb-[80px]">
-        <div className="flex justify-center ">
-          <div className="border border-black text-4xl w-fit px-[130px] py-[15px] tracking-[0.10em] z-10 bg-white absolute ">
-            Brands & Designers
-          </div>
-        </div>
-        <div className=" w-full border   border-red-500 flex justify-center ">
-          {brandImages?.map((images, index) => (
-            <img
-              className="border border-black w-fit mt-[30px] flex justify-center items-center 2xl:px-[110px] min-[836px]:px-[20px] max-[1024px]:px-[40px] min-[1024px]:px-[35px]  min-[1350px]:px-[70px] max-[1618px]:px-[110px]  px-[110px] min-[1240px]:px-[60px] max-[1350px]:px-[70px] py-[90px]"
-              key={index}
-              data-aos="fade-right"
-              src={images}
-              alt={`images ${index}`}
-            />
-          ))}
-        </div>
-      </div>
+
+      <BrandDesigner brandImages={brandImages} />
 
       {/* #afternoon at home */}
       <div className="w-full flex justify-center items-center  border border-red-600 h-20 mb-6">

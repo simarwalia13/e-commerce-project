@@ -131,7 +131,7 @@ const Rugs = () => {
                         hoveredIndex === index
                           ? "transition ease-in-out 	duration-800 bg-opacity-80"
                           : ""
-                      }   pointer-events-none p-2 text-center `}
+                      }    p-2 text-center `}
                       onClick={() => {
                         setPopUpCard(true);
                         console.log(`Quick  : ${product?.productId}`);

@@ -38,7 +38,7 @@ const Navbar = () => {
                 </g>
               </svg>
               <div
-                onClick={() => navigate("/home")}
+                onClick={() => navigate("/")}
                 className="font-semibold text-2xl text-black cursor-pointer"
               >
                 After.noon
@@ -46,13 +46,13 @@ const Navbar = () => {
             </div>
             <div className=" w-fit  flex flex-row  gap-x-[30px]">
               {data?.map((val) => (
-                <button
+                <div
                   key={val?.url}
                   onClick={() => handleNavigation(val?.url)}
-                  className="text-[#2E3238] text-md"
+                  className="text-[#2E3238] text-md  cursor-pointer "
                 >
                   {val.tab}
-                </button>
+                </div>
               ))}
             </div>
           </div>

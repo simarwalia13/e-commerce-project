@@ -2,14 +2,17 @@ import React, { useState } from "react";
 import { BiLogoFacebook } from "react-icons/bi";
 import { FaInstagram } from "react-icons/fa";
 import { TiSocialTwitter } from "react-icons/ti";
+import { useNavigate } from "react-router-dom";
 
 const FooterSection = () => {
+  const navigate = useNavigate();
+
   const footerButton1 = [
-    { tab: "Furniture" },
-    { tab: "Lighting" },
-    { tab: "Rugs" },
-    { tab: "New" },
-    { tab: "Sale" },
+    { tab: "Furniture", url: "/furniture" },
+    { tab: "Lighting", url: "/lighting" },
+    { tab: "Rugs", url: "/rugs" },
+    { tab: "New", url: "/new" },
+    { tab: "Sale", url: "/sale" },
   ];
   const footerButton2 = [
     { tab: "Shipping & Returns" },
@@ -19,7 +22,7 @@ const FooterSection = () => {
   ];
   const footerButton3 = [
     { tab: "Our Story" },
-    { tab: "Brands & Designers" },
+    { tab: "Brands & Designers", url: "/" },
     { tab: "Stores" },
     { tab: "Contact" },
   ];
@@ -29,6 +32,10 @@ const FooterSection = () => {
     e.preventDefault();
 
     console.log("Submitted email:", email);
+  };
+
+  const handleNavigate = (url) => {
+    navigate(url);
   };
 
   return (
@@ -67,7 +74,11 @@ const FooterSection = () => {
           <div className="flex border border-blue-600 flex-col w-fit  gap-y-1 px-[30px] ">
             <div className="text-white text-lg cursor-pointer mb-4">Shop</div>
             {footerButton1?.map((product) => (
-              <div className="text-white text-md cursor-pointer">
+              <div
+                onClick={() => handleNavigate(product?.url)}
+                key={product?.url}
+                className="text-white text-md cursor-pointer"
+              >
                 {product?.tab}
               </div>
             ))}
@@ -87,11 +98,18 @@ const FooterSection = () => {
 
           {/* 3rd line buttons */}
           <div className="flex border  border-blue-600 flex-col w-fit border-0 gap-y-1 px-[30px] ">
-            <div className="text-white text-lg cursor-pointer mb-4">
+            <div
+              onClick={() => navigate("/")}
+              className="text-white text-lg cursor-pointer mb-4"
+            >
               About After.noon
             </div>
             {footerButton3?.map((product) => (
-              <div className="text-white text-md cursor-pointer">
+              <div
+                key={product?.url}
+                onClick={() => handleNavigate(product?.url)}
+                className="text-white text-md cursor-pointer"
+              >
                 {product?.tab}
               </div>
             ))}
@@ -126,7 +144,10 @@ const FooterSection = () => {
                 ></path>
               </g>
             </svg>
-            <div className="font-semibold text-2xl text-white xl:text-xl ">
+            <div
+              onClick={() => navigate("/")}
+              className="font-semibold text-2xl cursor-pointer text-white xl:text-xl "
+            >
               After.noon
             </div>
           </div>

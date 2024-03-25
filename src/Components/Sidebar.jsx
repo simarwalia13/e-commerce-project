@@ -4,29 +4,39 @@ import { GoPlus } from "react-icons/go";
 import { FiMinus } from "react-icons/fi";
 import { useAtom } from "jotai";
 import { atomPrice, priceChangeStopAtom } from "./store";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+
   const data = [
     {
       tab: "All Products",
+      url: "/shopAll",
     },
     {
       tab: "Bestsellers",
+      url: "/bestSeller",
     },
     {
       tab: "Furniture",
+      url: "/furniture",
     },
     {
       tab: "Lighting",
+      url: "/lighting",
     },
     {
       tab: "New",
+      url: "/new",
     },
     {
       tab: "Rugs",
+      url: "/rugs",
     },
     {
       tab: "Sale",
+      url: "/sale",
     },
   ];
   const [price, setPrice] = useAtom(atomPrice);
@@ -46,13 +56,17 @@ const Sidebar = () => {
     setPriceChangeStop(true);
   };
 
+  const handleNavigation = (url) => {
+    navigate(url);
+  };
+
   return (
     <div>
       <div className="   border-gray-700  ">
         <div className=" ml-8 text-gray-800">
           {/* upper section */}
           <div className="flex items-center gap-x-[5px] w-full border border-blue-800 mb-[200px]  ">
-            <div className="text-md">Home</div>
+            <div className="text-md select-none">Home</div>
             <LiaGreaterThanSolid size={17} />
             <div className="text-md  border"></div>
           </div>
@@ -66,7 +80,11 @@ const Sidebar = () => {
           <div className=""></div>
           <div className="flex flex-col gap-y-[7px]">
             {data?.map((product) => (
-              <button className=" w-fit hover:opacity-70 hover:border-b-[1px] hover:border-black focus:border-b-[1px] focus:border-black">
+              <button
+                key={product?.url}
+                onClick={() => handleNavigation(product?.url)}
+                className=" w-fit hover:opacity-70 hover:border-b-[1px] hover:border-black focus:border-b-[1px] focus:border-black"
+              >
                 {product?.tab}
               </button>
             ))}
