@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import {
   atomAdd,
+  atomProductInfo,
   atomSendCart,
   atomShow,
   cardDetails,
@@ -14,27 +15,27 @@ import { FiCircle } from "react-icons/fi";
 import { IoIosArrowUp } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import ShowCart from "./ShowCart";
+import { useNavigate } from "react-router-dom";
 
-const PopUpCard = () => {
+const PopUpCard = ({ ...prop }) => {
+  const navigate = useNavigate();
+
   const [cardId] = useAtom(cardDetails);
   // console.log("ca", cardId);
   const [, setPopUp] = useAtom(cardRender);
 
   const [popData, setPopData] = useState([]);
-  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
   const [add, setAdd] = useAtom(atomAdd);
   const [show, setShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [, setProductView] = useAtom(showProduct);
+
   const [cartData, setCartData] = useAtom(atomSendCart);
   console.log("cartData", cartData);
   const [cartt, setCartt] = useAtom(atomShow);
   const [localAdd, setLocalAdd] = useState(1);
-  // console.log("cartData", cartData);
-  // console.log("productView", productView);
-
-  // console.log("popData", popData);
-  // console.log("cardId", cardId);
+  const [, setProductInfo] = useAtom(atomProductInfo);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     axios
@@ -43,9 +44,8 @@ const PopUpCard = () => {
         const specificData = res?.data?.find(
           (item) => item?.productId === cardId
         );
-        // console.log("specificData", specificData);
+
         setPopData(specificData);
-        // console.log("res", res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -55,24 +55,59 @@ const PopUpCard = () => {
   const handleCircleClick = (image) => {
     setSelectedImage(image);
   };
+
+  const addItemToCart = () => {
+    const existingItem = cartData.find(
+      (item) => item.newItem.productId === cardId
+    );
+
+    if (existingItem) {
+      const updatedCartData = cartData.map((item) => {
+        if (item.newItem.productId === cardId) {
+          return {
+            ...item,
+            newItem: {
+              ...item.newItem,
+              quantity: item.newItem.quantity + localAdd,
+            },
+          };
+        }
+        return item;
+      });
+
+      setCartData(updatedCartData);
+    } else {
+      const newItem = {
+        productId: cardId,
+        imageOne: popData?.imageOne,
+        productCategory: popData?.productCategory,
+        productPrice: popData?.productPrice,
+        quantity: localAdd,
+      };
+
+      setCartData((prevItems) => [...prevItems, { newItem }]);
+    }
+
+    setPopUp(false);
+    setCartt(true);
+    setLocalAdd(1);
+  };
+
   const handleClick = () => {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      setCartData(cardId);
-      setPopUp(false);
-      setCartt(true);
+      addItemToCart();
+
       setAdd(add);
-      setLocalAdd(1);
     }, 2000);
   };
 
   const plus = (e) => {
     e.stopPropagation();
-    if (add < 5 && localAdd < 5) {
-      setAdd(add + 1);
-      setLocalAdd(add + 1);
-    }
+
+    setAdd(add + 1);
+    setLocalAdd(add + 1);
   };
 
   const minus = (e) => {
@@ -85,11 +120,17 @@ const PopUpCard = () => {
   const resetAddValue = () => {
     setLocalAdd(1);
   };
-  // const resetAdd = () => {
-  //   if (handleClick) {
-  //     setLocalAdd(1);
-  //   }
-  // };
+
+  const handleViewDetails = () => {
+    setLoading(true);
+    setTimeout(() => {
+      navigate("/product");
+      setProductInfo(popData);
+      // setProductView((change) => !change);
+      setPopUp(false);
+      setLoading(false);
+    }, 2000);
+  };
 
   return (
     <div
@@ -97,7 +138,7 @@ const PopUpCard = () => {
       className="fixed  top-0 left-0 w-full h-full bg-[#808080] bg-opacity-70 z-30 "
     >
       <div className="flex justify-center items-center h-full">
-        <div className="absolute  bg-[#FFFFFF]    w-[47%] h-[60vh]">
+        <div className="absolute  bg-[#FFFFFF] pb-5   ">
           <div
             className="flex cursor-pointer justify-end mr-3 mt-2"
             onClick={() => {
@@ -111,13 +152,11 @@ const PopUpCard = () => {
           <div className="">
             <div className=" flex ">
               {popData && (
-                <div className="  w-[53%]">
-                  <img
-                    src={selectedImage || popData.imageOne}
-                    alt=""
-                    className="w-[74%]  ml-[70px] select-none"
-                  />
-                </div>
+                <img
+                  src={selectedImage || popData.imageOne}
+                  alt=""
+                  className="w-[40%]  ml-[70px] select-none"
+                />
               )}
 
               <div className="ml-9">
@@ -139,8 +178,7 @@ const PopUpCard = () => {
                         e.stopPropagation();
                         setShow(false);
                       }}
-                      className={`border w-fit px-3  py-1  flex justify-between  mb-10`}
-                      style={{ minWidth: "90px", height: "40px" }}
+                      className={`border w-fit px-3  py-1  flex justify-between  mb-10 min-w-[90px] min-h-[42px]`}
                     >
                       <div className=" w-fit select-none">{localAdd}</div>
 
@@ -161,11 +199,11 @@ const PopUpCard = () => {
                         )}
                       </div>
                     </div>
-                    {localAdd >= 5 && (
+                    {/* {localAdd >= 5 && (
                       <span className=" text-red-600 text-sm mt-2 select-none">
                         Order limit reached
                       </span>
-                    )}
+                    )} */}
                   </div>
                 </div>
 
@@ -173,21 +211,21 @@ const PopUpCard = () => {
 
                 <div
                   onClick={handleClick}
-                  className="bg-black text-white w-[250px] text-center hover:bg-opacity-70 py-2 cursor-pointer select-none "
+                  className="bg-black text-white min-w-[280px] text-center hover:bg-opacity-70 py-2 cursor-pointer select-none   "
                   disabled={isLoading}
                 >
                   {isLoading ? "Loading..." : "Add to Cart"}
                 </div>
                 <div
-                  onClick={() => {
-                    setProductView((change) => !change);
-                  }}
+                  onClick={handleViewDetails}
                   className="text-[15px] mt-4 underline cursor-pointer select-none"
+                  disabled={loading}
                 >
-                  View more Detail
+                  {loading ? "Loading..." : "View More Details"}
                 </div>
               </div>
             </div>
+            {/* circle select */}
             <div className="ml-[200px] mt-3 ">
               <button
                 onClick={() => handleCircleClick(popData?.imageOne)}

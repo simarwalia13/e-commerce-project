@@ -49,7 +49,7 @@ function App() {
           }
         />
         <Route
-          path="/Cart"
+          path="/product"
           element={
             <LayoutCart>
               <Cart />

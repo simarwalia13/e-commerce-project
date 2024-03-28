@@ -5,7 +5,7 @@ import { atomPrice, priceChangeStopAtom } from "./store";
 import { RxCross2 } from "react-icons/rx";
 
 const Lights = () => {
-  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [hoveredIndex, setHoveredIndex] = useState("");
   // const [getData, setGetData] = useState([]);
   const [priceChangeStop] = useAtom(priceChangeStopAtom);
   console.log("priceChangeStop", priceChangeStop);
@@ -92,17 +92,19 @@ const Lights = () => {
         )}
 
         <div className="grid grid-cols-3 gap-y-8 border border-green-500  ">
-          {getImageData?.map((product, index) => (
+          {getImageData?.map((product) => (
             <div key={product?.productId} className=" relative ">
               <div className="relative w-[85%] ">
                 <img
                   src={
-                    hoveredIndex === index ? product.imageTwo : product.imageOne
+                    hoveredIndex === product?.productId
+                      ? product.imageTwo
+                      : product.imageOne
                   }
                   alt={`slide${product?.productId}_combined`}
                   className="max-w-full h-auto cursor-pointer"
-                  onMouseEnter={() => setHoveredIndex(index)}
-                  onMouseLeave={() => setHoveredIndex(null)}
+                  onMouseEnter={() => setHoveredIndex(product?.productId)}
+                  onMouseLeave={() => setHoveredIndex("")}
                 />
                 {product.isProductNew === "yes" && (
                   <div className="absolute bottom-[96%] px-2 py-[2px] text-sm bg-[#3F5C58] text-white">
@@ -120,14 +122,13 @@ const Lights = () => {
                   </div>
                 )}
 
-                {hoveredIndex === index && (
+                {hoveredIndex === product.productId && (
                   <button
                     className={`absolute bottom-0 left-0 right-0 bg-white  ${
-                      hoveredIndex === index
-                        ? "transition ease-in-out 	duration-800 bg-opacity-80"
-                        : ""
-                    }   pointer-events-none p-2 text-center `}
-                    onClick={() => {
+                      hoveredIndex === product.productId ? " bg-opacity-80" : ""
+                    }    p-2 text-center `}
+                    onClick={(e) => {
+                      e.stopPropagation();
                       console.log(`Quick  : ${product?.productId}`);
                     }}
                   >

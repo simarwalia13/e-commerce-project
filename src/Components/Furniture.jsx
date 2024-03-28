@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import {
   atomCartId,
   atomPrice,
+  atomProductInfo,
   // atomSendCart,
   cardDetails,
   cardRender,
@@ -12,10 +13,10 @@ import {
 import { RxCross2 } from "react-icons/rx";
 
 import PopUpCard from "./PopUpCard";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const Furniture = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [hoveredIndex, setHoveredIndex] = useState(null);
   // const [getData, setGetData] = useState([]);
@@ -32,7 +33,8 @@ const Furniture = () => {
   // const [, setCartData] = useAtom(atomSendCart);
   const [cardId, setCardId] = useAtom(cardDetails);
   console.log("cardId", cardId);
-
+  const [productDetails, setProductDetails] = useState([]);
+  const [, setProductInfo] = useAtom(atomProductInfo);
   const [, setCartId] = useAtom(atomCartId);
   // const [hovered, setHovered] = useState(false);
 
@@ -75,12 +77,14 @@ const Furniture = () => {
     setPrice(85.0);
   };
 
-  const handleImageClick = (index, product) => {
+  const handleImageClick = (index, product, e) => {
+    e.stopPropagation();
     setHoveredIndex(index);
 
     setCartId(product?.productId);
     setTimeout(() => {
-      navigate("/Cart");
+      // navigate("/product");
+      setProductInfo(product);
     }, 1000);
   };
 
@@ -131,7 +135,7 @@ const Furniture = () => {
                 }
                 alt={`slide${product?.productId}_combined`}
                 className="max-w-full h-auto cursor-pointer"
-                onClick={() => handleImageClick(index, product)}
+                onClick={(e) => handleImageClick(index, product, e)}
               />
               {product.isProductNew === "yes" && (
                 <div className="absolute bottom-[96%] px-2 py-[2px] text-sm bg-[#3F5C58] text-white">
@@ -158,6 +162,8 @@ const Furniture = () => {
 
                       setpopUp(true);
                       // setCartData(null);
+                      setProductDetails(product);
+
                       setCardId(product?.productId);
                       // setCardId(index);
                     }}
@@ -179,7 +185,7 @@ const Furniture = () => {
 
       {popUp === true && (
         <div className="">
-          <PopUpCard />
+          <PopUpCard productDetails={productDetails} />
         </div>
       )}
     </div>

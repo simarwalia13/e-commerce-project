@@ -1,66 +1,64 @@
 import { useAtom } from "jotai";
-import React, { useEffect, useState } from "react";
-import { atomAdd, atomSendCart, atomShow } from "./store";
+import React from "react";
+import { atomSendCart, atomShow } from "./store";
 import { IoIosArrowForward } from "react-icons/io";
-import axios from "axios";
+
 import { RxCross2 } from "react-icons/rx";
 import { GoPlus } from "react-icons/go";
 import { FiMinus } from "react-icons/fi";
 
 const ShowCart = () => {
   const [cartt, setCartt] = useAtom(atomShow);
-  const [cartData] = useAtom(atomSendCart);
+  const [cartData, setCartData] = useAtom(atomSendCart);
   console.log("cartDat", cartData);
-  // const [todoData, setTodoData] = useState([]);
-  // const [, setData] = useState([]);
-  // console.log("data", data);
-  // const [todoList, setTodoList] = useState([]);
-  // console.log("todoList", todoList);
-  const [add, setAdd] = useAtom(atomAdd);
-  const [cartItems, setCartItems] = useState([]);
-  console.log("cartItems", cartItems);
+
+  // const [add, setAdd] = useAtom(atomAdd);
+  // const [cartItems, setCartItems] = useState([]);
+  // console.log("cartItems", cartItems);
   // console.log("add", add);
   console.log("cat", cartt);
   // console.log("todoData", todoData);
-
-  useEffect(() => {
-    if (cartData) {
-      axios
-        .get(`/Data.json?productId=${cartData}`)
-        .then((res) => {
-          const newItem = res.data.find((item) => item.productId === cartData);
-          const itemExists = cartItems.some(
-            (item) => item.productId === newItem.productId
-          );
-          if (!itemExists) {
-            setCartItems((prevItems) => [...prevItems, newItem]);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [cartData, cartItems]);
 
   const notDisplay = (e) => {
     e.stopPropagation();
     setCartt(true);
   };
-  const plus = () => {
-    if (add < 5) {
-      setAdd(add + 1);
-    }
+  const plus = (productId) => {
+    const updatedCartData = cartData.map((item) => {
+      if (item.newItem.productId === productId) {
+        return {
+          ...item,
+          newItem: { ...item.newItem, quantity: item.newItem.quantity + 1 },
+        };
+      }
+      return item;
+    });
+
+    setCartData(updatedCartData);
   };
 
-  const minus = () => {
-    if (add > 1) {
-      setAdd(add - 1);
-    }
+  const minus = (productId) => {
+    const updatedCartData = cartData.map((item) => {
+      if (item.newItem.productId === productId && item.newItem.quantity > 1) {
+        return {
+          ...item,
+          newItem: { ...item.newItem, quantity: item.newItem.quantity - 1 },
+        };
+      }
+      return item;
+    });
+
+    setCartData(updatedCartData);
   };
-  const removeItem = (productId, e) => {
+
+  const removeItem = (product, e) => {
+    console.log("productId", product);
     e.stopPropagation();
-    setCartItems((prevItems) =>
-      prevItems.filter((item) => item.productId !== productId)
+
+    setCartData(
+      cartData.filter((item) => {
+        return item.newItem.productId !== product;
+      })
     );
   };
 
@@ -93,37 +91,39 @@ const ShowCart = () => {
 
           {/* carddetails */}
           <div className="">
-            {cartItems.map((item) => (
-              <div
-                key={item.productId}
+            {cartData?.map((item) => (
+              <li
+                key={item.newItem.productId}
                 className=" border-b border-gray-300  w-fit flex gap-x-4 ml-5 mr-5"
               >
-                <div className=" w-[28%]  select-none ">
-                  <img src={item.imageOne} alt="" className=" p-2 w-full" />
-                </div>
+                <img
+                  src={item.newItem.imageOne}
+                  alt=""
+                  className=" w-[28%] p-2  select-none "
+                />
 
                 <div className="">
                   <div className="text-md text-[#5C5757] pt-3 select-none">
-                    {item.productCategory}
+                    {item.newItem.productCategory}
                   </div>
                   <div className="text-md font-bold text-[#5C5757] select-none">
-                    ${item.productPrice}
+                    ${item.newItem.productPrice}
                   </div>
                   <div className="">
                     <div className="border w-fit px-1  py-[1px]  flex justify-between gap-x-3 items-center mt-[7px]">
                       <FiMinus
                         className="cursor-pointer text-black"
-                        onClick={minus}
+                        onClick={() => minus(item?.newItem?.productId)}
                         size={13}
                       />
 
                       <div className=" w-fit text-black text-center select-none">
-                        {add}
+                        {item.newItem.quantity}
                       </div>
 
                       <GoPlus
                         className="cursor-pointer text-black"
-                        onClick={plus}
+                        onClick={() => plus(item?.newItem?.productId)}
                         size={14}
                       />
                     </div>
@@ -133,18 +133,18 @@ const ShowCart = () => {
                   <div className="text-black mt-3 ml-[80px] cursor-pointer">
                     <RxCross2
                       size={15}
-                      onClick={(e) => removeItem(item.productId, e)}
+                      onClick={(e) => removeItem(item.newItem.productId, e)}
                     />
                   </div>
-                  <div className="mt-[44px]">
-                    {add >= 5 && (
+                  {/* <div className="mt-[44px]">
+                    {item.newItem.quantity >= 5 && (
                       <div className=" text-red-600 text-[13px]   select-none">
                         Order limit reached
                       </div>
                     )}
-                  </div>
+                  </div> */}
                 </div>
-              </div>
+              </li>
             ))}
           </div>
         </div>

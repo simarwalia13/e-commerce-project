@@ -98,6 +98,7 @@ const Sidebar = () => {
               <span className="">by</span>
             </div>
           </div>
+
           <div className=" border-b-[1px] border-[#D9D9D9]">
             <div className="flex items-center pb-[12px] justify-between ">
               <div className="">Price</div>
