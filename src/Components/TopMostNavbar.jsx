@@ -12,7 +12,7 @@ const TopMostNavbar = () => {
   return (
     <div>
       <div className="  ">
-        <div className="flex justify-around  border border-red-600">
+        <div className="flex justify-around  ">
           {topMostNavbarData?.map((elm) => (
             <button
               key={elm?.url}

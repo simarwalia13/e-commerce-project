@@ -10,9 +10,9 @@ const LayoutSection = ({ children }) => {
       <TopMostNavbar />
       <Navbar />
       <TopNavbar />
-      <div className="flex border gap-x-[50px]  border-blue-300">
+      <div className="flex  gap-x-[50px]  ">
         <Sidebar />
-        <div className="w-full">{children}</div>
+        <div className="w-full ">{children}</div>
       </div>
     </div>
   );

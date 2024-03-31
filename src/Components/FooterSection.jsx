@@ -39,7 +39,7 @@ const FooterSection = () => {
   };
 
   return (
-    <div className="bg-[#3F5C58] md:w-[100%] min-[320px]:h-full mt-[60px]  border border-red-600 pb-[50px]">
+    <div className="bg-[#3F5C58] md:w-[100%] min-[320px]:h-full mt-[60px]   pb-[50px]">
       <div className=" border-1 border-red-600 flex gap-x-[100px] lg:gap-x-[40px] py-[60px]">
         <div className="flex flex-col gap-y-[30px] w-fit   px-[50px]">
           <p className="text-xl text-white font-md ">
@@ -71,7 +71,7 @@ const FooterSection = () => {
 
         <div className="flex flex-row  justify-end  gap-x-[170px] xl:gap-x-[100px] w-full mr-10">
           {/* 1st line buttons */}
-          <div className="flex border border-blue-600 flex-col w-fit  gap-y-1 px-[30px] ">
+          <div className="flex  flex-col w-fit  gap-y-1 px-[30px] ">
             <div className="text-white text-lg cursor-pointer mb-4">Shop</div>
             {footerButton1?.map((product) => (
               <div
@@ -97,7 +97,7 @@ const FooterSection = () => {
           </div>
 
           {/* 3rd line buttons */}
-          <div className="flex border  border-blue-600 flex-col w-fit border-0 gap-y-1 px-[30px] ">
+          <div className="flex  flex-col w-fit border-0 gap-y-1 px-[30px] ">
             <div
               onClick={() => navigate("/")}
               className="text-white text-lg cursor-pointer mb-4"

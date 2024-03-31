@@ -9,7 +9,7 @@ const LayoutCart = ({ children }) => {
       <TopMostNavbar />
       <Navbar />
       <TopNavbar />
-      <div className="w-full h-[100vh]">{children}</div>
+      <div className=" ">{children}</div>
     </div>
   );
 };

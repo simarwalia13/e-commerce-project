@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { LiaGreaterThanSolid } from "react-icons/lia";
+
 import { GoPlus } from "react-icons/go";
 import { FiMinus } from "react-icons/fi";
 import { useAtom } from "jotai";
 import { atomPrice, priceChangeStopAtom } from "./store";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const navigate = useNavigate();
-
+  let location = useLocation();
+  const { pathname } = location;
+  console.log("pathname", pathname);
   const data = [
     {
       tab: "All Products",
@@ -65,10 +67,15 @@ const Sidebar = () => {
       <div className="   border-gray-700  ">
         <div className=" ml-8 text-gray-800">
           {/* upper section */}
-          <div className="flex items-center gap-x-[5px] w-full border border-blue-800 mb-[200px]  ">
-            <div className="text-md select-none">Home</div>
-            <LiaGreaterThanSolid size={17} />
-            <div className="text-md  border"></div>
+          <div className="flex items-center gap-x-[5px] w-full  mb-[200px]  ">
+            <div
+              onClick={() => navigate("/")}
+              className="text-md select-none cursor-pointer"
+            >
+              Home
+            </div>
+
+            <div className="text-md  ">{pathname}</div>
           </div>
 
           {/* mid section */}

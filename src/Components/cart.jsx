@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   atomAdd,
   atomProductInfo,
@@ -13,15 +13,16 @@ import { IoIosArrowDown } from "react-icons/io";
 import { FiCircle } from "react-icons/fi";
 import { GoPlus } from "react-icons/go";
 import { FiMinus } from "react-icons/fi";
+import axios from "axios";
 
 const Cart = () => {
-  const [productInfo] = useAtom(atomProductInfo);
+  const [productInfo, setProductInfo] = useAtom(atomProductInfo);
   console.log("productInfo", productInfo);
   const [show, setShow] = useState(false);
   const [localAdd, setLocalAdd] = useState(1);
   const [add, setAdd] = useAtom(atomAdd);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(productInfo.imageOne);
   const [isExpanded, setIsExpanded] = useState(false);
   const [rrExpanded, setRrExpanded] = useState(false);
   const [siExpanded, setSiExpanded] = useState(false);
@@ -29,6 +30,20 @@ const Cart = () => {
   const [cartData, setCartData] = useAtom(atomSendCart);
   console.log("cartData", cartData);
   const [cardId] = useAtom(cardDetails);
+  const [data, setData] = useState([]);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    axios
+      .get(`/Data.json`)
+      .then((res) => {
+        setData(res?.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const plus = (e) => {
     e.stopPropagation();
@@ -98,6 +113,32 @@ const Cart = () => {
   const toggle = () => setRrExpanded((change) => !change);
 
   const toggleShowMe = () => setSiExpanded((change) => !change);
+
+  const handleView = (productId, index) => {
+    const updatedProductInfo = data.find(
+      (item) => item.productId === productId
+    );
+    if (updatedProductInfo) {
+      setProductInfo(updatedProductInfo);
+    }
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % data.length);
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex - 1 >= 0 ? prevIndex - 1 : data.length - 1
+    );
+  };
+
+  const handleNext = () => {
+    if (currentIndex + 1 < data.length) {
+      setCurrentIndex((prevIndex) => prevIndex + 1);
+    } else {
+      setData((prevData) => [...prevData.slice(1), prevData[0]]);
+      setCurrentIndex(data.length - 1);
+    }
+  };
+
   return (
     <div>
       {/* home prev next  */}
@@ -181,7 +222,7 @@ const Cart = () => {
               Buy Now
             </div>
             {/* product info */}
-            <div className=" border-b-[1px] border-[#D9D9D9] mt-6">
+            <div className=" border-b-[1px] border-[#D9D9D9] mt-6 select-none">
               <div className="flex items-center pb-[12px] justify-between ">
                 <div className="">PRODUCT INFO</div>
                 <div className="cursor-pointer" onClick={toggleShow}>
@@ -201,7 +242,7 @@ const Cart = () => {
             </div>
 
             {/* return & refund policy */}
-            <div className=" border-b-[1px] border-[#D9D9D9] mt-3">
+            <div className=" border-b-[1px] border-[#D9D9D9] mt-3 select-none">
               <div className="flex items-center pb-[12px] justify-between ">
                 <div className="">RETURN & REFUND POLICY</div>
                 <div className="cursor-pointer" onClick={toggle}>
@@ -221,7 +262,7 @@ const Cart = () => {
             </div>
 
             {/* shipping info */}
-            <div className=" border-b-[1px] border-[#D9D9D9] mt-3">
+            <div className=" border-b-[1px] border-[#D9D9D9] mt-3 select-none">
               <div className="flex items-center pb-[12px] justify-between ">
                 <div className="">SHIPPING INFO</div>
                 <div className="cursor-pointer" onClick={toggleShowMe}>
@@ -277,7 +318,7 @@ const Cart = () => {
       </div>
 
       {/* product description */}
-      <div className="w-[470px]  text-[16px] text-justify ml-[21%] mt-3">
+      <div className="w-[470px]  text-[16px] text-justify ml-[21%] mt-3 select-none">
         I'm a product description. I'm a great place to add more details about
         your product such as sizing, material, care instructions and cleaning
         instructions.
@@ -285,7 +326,40 @@ const Cart = () => {
 
       {/* you might also like */}
 
-      <div className="text-2xl ml-[50px] mt-8">You Might Also Like </div>
+      <div className="  text-2xl ml-4 mt-8 mb-10 select-none cursor-pointer border">
+        You Might Also Like
+        <div className="flex items-center mt-10">
+          <HiOutlineChevronLeft
+            size={170}
+            className="cursor-pointer mr-4"
+            onClick={handlePrev}
+          />
+          <div className="flex gap-x-8 overflow-hidden relative">
+            {data.map((item, index) => (
+              <img
+                key={item.productId}
+                src={
+                  hoveredIndex === item.productId
+                    ? item.imageTwo
+                    : item.imageOne
+                }
+                alt=""
+                className={`w-[18%] border border-red-400  transition-transform duration-300 transform${
+                  currentIndex === index ? "translate-x-0" : "translate-x-full"
+                }`}
+                onMouseEnter={() => setHoveredIndex(item.productId)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                onClick={() => handleView(item.productId, index)}
+              />
+            ))}
+          </div>
+          <HiOutlineChevronRight
+            size={170}
+            className="cursor-pointer ml-4 border"
+            onClick={handleNext}
+          />
+        </div>
+      </div>
     </div>
   );
 };

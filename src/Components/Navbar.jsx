@@ -12,7 +12,7 @@ const Navbar = () => {
   return (
     <div>
       <div className="  ">
-        <div className="bg-[#ffffff] py-[13px]  w-full  border border-red-600 ">
+        <div className="bg-[#ffffff] py-[13px]  w-full   ">
           <div className="  w-full gap-x-[17px]  px-[45px] flex items-center justify-between ">
             <div className="border-0 flex justify-center items-center gap-x-2">
               <svg

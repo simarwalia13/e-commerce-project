@@ -19,10 +19,7 @@ export const data = [
     tab: "About",
     url: "/about",
   },
-  {
-    tab: "Stories",
-    url: "/stories",
-  },
+
   {
     tab: "Contact",
     url: "/contact",

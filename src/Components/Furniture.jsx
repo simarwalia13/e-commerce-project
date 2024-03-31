@@ -89,8 +89,8 @@ const Furniture = () => {
   };
 
   return (
-    <div className="  border border-red-400 w-full ">
-      <div className="border mb-[85px] ">
+    <div className="  w-full ">
+      <div className=" mb-[85px] ">
         {/* heading section */}
         <div className="flex flex-col items-center justify-center">
           <div className="text-6xl mb-3 mt-8">Furniture</div>
@@ -125,7 +125,7 @@ const Furniture = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-3 gap-y-8 border border-green-500  ">
+      <div className="grid grid-cols-3 gap-y-8   ">
         {getImageData?.map((product, index) => (
           <div key={product?.productId} className=" relative ">
             <div className="relative w-[85%] ">
@@ -161,11 +161,10 @@ const Furniture = () => {
                       e.stopPropagation();
 
                       setpopUp(true);
-                      // setCartData(null);
+
                       setProductDetails(product);
 
                       setCardId(product?.productId);
-                      // setCardId(index);
                     }}
                   >
                     Quick View

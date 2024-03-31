@@ -60,7 +60,7 @@ const Home = () => {
         <TopMostNavbar /> <Navbar /> <TopNavbar />
       </div>
       {/* 1stpart homepage */}
-      <div className="relative  border border-red-800 h-[100vh]">
+      <div className="relative  h-[100vh]">
         {images?.map((image, index) => (
           <img
             key={index}
@@ -92,7 +92,7 @@ const Home = () => {
             </div>
             <div
               onClick={() => navigate("/shopAll")}
-              className="text-xl border bg-[#35373C]  cursor-pointer w-fit font-md bg-black px-[50px] py-2 text-white cursor-pointer hover:bg-white hover:text-black shadow-2xl"
+              className="text-xl  bg-[#35373C]  cursor-pointer w-fit font-md bg-black px-[50px] py-2 text-white cursor-pointer hover:bg-white hover:text-black shadow-2xl"
             >
               Shop Now
             </div>
@@ -102,7 +102,7 @@ const Home = () => {
 
       {/* 2nd box container */}
 
-      <div className="w-full mt-[-65px]  border border-red-600 absolute">
+      <div className="w-full mt-[-65px]  absolute">
         <div className="flex justify-around px-[30px]">
           <div className="flex justify-center items-center border-r-[1px] border-b-[1px] border-black gap-x-2 py-[50px] bg-white  w-full">
             <svg
@@ -307,7 +307,7 @@ const Home = () => {
         </div>
         {/* jane levi img with text */}
 
-        <div className="w-[50%] flex flex-col  border border-red-600 items-center">
+        <div className="w-[50%] flex flex-col  items-center">
           <img
             data-aos="fade-right"
             src={JaneLeviImage}
@@ -335,7 +335,7 @@ const Home = () => {
       <BrandDesigner brandImages={brandImages} />
 
       {/* #afternoon at home */}
-      <div className="w-full flex justify-center items-center  border border-red-600 h-20 mb-6">
+      <div className="w-full flex justify-center items-center  h-20 mb-6">
         <div className="text-3xl text-black tracking-[.10em]">
           #AfternoonAtHome
         </div>

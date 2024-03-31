@@ -61,8 +61,8 @@ const ShopAll = () => {
   };
 
   return (
-    <div className="  border border-red-400  ">
-      <div className="border  mb-[85px] ">
+    <div className="    ">
+      <div className="  mb-[85px] ">
         {/* heading section */}
         <div className="flex flex-col  items-center justify-center ">
           <div className="text-6xl mb-3 mt-8">All Products</div>
@@ -97,7 +97,7 @@ const ShopAll = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-3 gap-y-[50px] border border-green-500 ">
+      <div className="grid grid-cols-3 gap-y-[50px]  ">
         {getImageData?.map((product, index) => (
           <div key={product?.productId} className=" relative ">
             <div className="relative w-[85%] ">

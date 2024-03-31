@@ -9,7 +9,7 @@ const BrandDesigner = ({ ...prop }) => {
             Brands & Designers
           </div>
         </div>
-        <div className=" w-full border   border-red-500 flex justify-center ">
+        <div className=" w-full  flex justify-center ">
           {prop?.brandImages?.map((images, index) => (
             <img
               className="border border-black w-fit mt-[30px] flex justify-center items-center 2xl:px-[110px] min-[836px]:px-[20px] max-[1024px]:px-[40px] min-[1024px]:px-[35px]  min-[1350px]:px-[70px] max-[1618px]:px-[110px]  px-[110px] min-[1240px]:px-[60px] max-[1350px]:px-[70px] py-[90px]"

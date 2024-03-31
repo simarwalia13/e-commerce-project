@@ -58,8 +58,8 @@ const Rugs = () => {
   return (
     <div>
       <div>
-        <div className="border border-red-400 w-full ">
-          <div className="border mb-[85px] ">
+        <div className="w-full ">
+          <div className=" mb-[85px] ">
             {/* heading section */}
             <div className="flex flex-col items-center justify-center">
               <div className="text-6xl mb-3 mt-8">Rugs</div>
@@ -94,7 +94,7 @@ const Rugs = () => {
             </div>
           )}
 
-          <div className="grid grid-cols-3 gap-y-12 border border-green-500  ">
+          <div className="grid grid-cols-3 gap-y-12  ">
             {getImageData?.map((product, index) => (
               <div key={product?.productId} className=" relative ">
                 <div className="relative w-[85%] ">

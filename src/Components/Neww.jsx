@@ -5,27 +5,39 @@ import {
   atomCartId,
   atomPrice,
   atomProductInfo,
+  // atomSendCart,
   cardDetails,
   cardRender,
   priceChangeStopAtom,
 } from "./store";
 import { RxCross2 } from "react-icons/rx";
-import PopUpCard from "./PopUpCard";
 
-const Lights = () => {
-  const [hoveredIndex, setHoveredIndex] = useState("");
+import PopUpCard from "./PopUpCard";
+// import { useNavigate } from "react-router-dom";
+
+const Neww = () => {
+  // const navigate = useNavigate();
+
+  const [hoveredIndex, setHoveredIndex] = useState(null);
   // const [getData, setGetData] = useState([]);
   const [priceChangeStop] = useAtom(priceChangeStopAtom);
-  console.log("priceChangeStop", priceChangeStop);
+  // console.log("priceChangeStop", priceChangeStop);
   const [price, setPrice] = useAtom(atomPrice);
   const [prevPrice, setPrevPrice] = useState(price);
-  const [popUp, setpopUp] = useAtom(cardRender);
+  // console.log("prevPrice", prevPrice);
   const [prevProductLength, setPrevProductLength] = useState(0);
+  // console.log("prevProductLength", prevProductLength);
   const [getImageData, setGetImageData] = useState();
+  const [popUp, setpopUp] = useAtom(cardRender);
+  console.log("popUp", popUp);
+  // const [, setCartData] = useAtom(atomSendCart);
+  const [cardId, setCardId] = useAtom(cardDetails);
+  console.log("cardId", cardId);
   const [productDetails, setProductDetails] = useState([]);
   const [, setProductInfo] = useAtom(atomProductInfo);
   const [, setCartId] = useAtom(atomCartId);
-  const [, setCardId] = useAtom(cardDetails);
+  // const [hovered, setHovered] = useState(false);
+
   useEffect(() => {
     axios
       .get("/Data.json")
@@ -35,7 +47,7 @@ const Lights = () => {
         setPrevProductLength(() => {
           const filteredData = response?.data.filter(
             (product) =>
-              product.productCategory === "Lighting" &&
+              product.isProductNew === "yes" &&
               product.productPrice <= prevPrice
           );
           return filteredData.length;
@@ -44,7 +56,7 @@ const Lights = () => {
         setGetImageData(() => {
           const filteredData = response?.data.filter(
             (product) =>
-              product.productCategory === "Lighting" &&
+              product.isProductNew === "yes" &&
               product.productPrice <= prevPrice
           );
           return filteredData;
@@ -64,6 +76,7 @@ const Lights = () => {
   const resetPrice = () => {
     setPrice(85.0);
   };
+
   const handleImageClick = (index, product, e) => {
     e.stopPropagation();
     setHoveredIndex(index);
@@ -74,14 +87,13 @@ const Lights = () => {
       setProductInfo(product);
     }, 1000);
   };
-
   return (
     <div>
-      <div className="   w-full ">
+      <div className="  w-full ">
         <div className=" mb-[85px] ">
           {/* heading section */}
           <div className="flex flex-col items-center justify-center">
-            <div className="text-6xl mb-3 mt-8">Lighting</div>
+            <div className="text-6xl mb-3 mt-8">New</div>
             <p className="w-fit text-center">
               This is your category description. It’s a great place to tell
               customers what this category is
@@ -119,9 +131,7 @@ const Lights = () => {
               <div className="relative w-[85%] ">
                 <img
                   src={
-                    hoveredIndex === product?.productId
-                      ? product.x
-                      : product.imageOne
+                    hoveredIndex === index ? product.imageTwo : product.imageOne
                   }
                   alt={`slide${product?.productId}_combined`}
                   className="max-w-full h-auto cursor-pointer"
@@ -144,28 +154,28 @@ const Lights = () => {
                 )}
 
                 {hoveredIndex === index && (
-                  <button
-                    className={`absolute bottom-0 left-0 right-0 bg-white  ${
-                      hoveredIndex === product.productId ? " bg-opacity-80" : ""
-                    }    p-2 text-center `}
-                    onClick={(e) => {
-                      e.stopPropagation();
+                  <div className="">
+                    <div
+                      className=" absolute z-20 cursor-pointer bottom-0 left-0 right-0 bg-white bg-opacity-60 p-2 text-center "
+                      onClick={(e) => {
+                        e.stopPropagation();
 
-                      setpopUp(true);
+                        setpopUp(true);
 
-                      setProductDetails(product);
+                        setProductDetails(product);
 
-                      setCardId(product?.productId);
-                    }}
-                  >
-                    Quick View
-                  </button>
+                        setCardId(product?.productId);
+                      }}
+                    >
+                      Quick View
+                    </div>
+                  </div>
                 )}
               </div>
               {/* product description */}
               <div className="mt-2 text-lg flex flex-col items-center">
                 <div className="">{product.productCategory}</div>
-                <div className="  ">{product.productPrice}</div>
+                <div className=" ">{product.productPrice}</div>
               </div>
             </div>
           ))}
@@ -182,4 +192,4 @@ const Lights = () => {
   );
 };
 
-export default Lights;
+export default Neww;

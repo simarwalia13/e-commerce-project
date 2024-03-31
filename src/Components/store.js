@@ -11,3 +11,4 @@ export const atomSendCart = atom([]);
 export const atomAdd = atom(1);
 export const atomCartId = atom("");
 export const atomProductInfo = atom([]);
+export const atomCartItem = atom(0);

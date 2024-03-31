@@ -8,7 +8,6 @@ import {
   atomShow,
   cardDetails,
   cardRender,
-  showProduct,
 } from "./store";
 import axios from "axios";
 import { FiCircle } from "react-icons/fi";
@@ -25,7 +24,9 @@ const PopUpCard = ({ ...prop }) => {
   const [, setPopUp] = useAtom(cardRender);
 
   const [popData, setPopData] = useState([]);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(
+    prop?.productDetails.imageOne
+  );
   const [add, setAdd] = useAtom(atomAdd);
   const [show, setShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -153,7 +154,7 @@ const PopUpCard = ({ ...prop }) => {
             <div className=" flex ">
               {popData && (
                 <img
-                  src={selectedImage || popData.imageOne}
+                  src={selectedImage}
                   alt=""
                   className="w-[40%]  ml-[70px] select-none"
                 />
@@ -228,33 +229,45 @@ const PopUpCard = ({ ...prop }) => {
             {/* circle select */}
             <div className="ml-[200px] mt-3 ">
               <button
-                onClick={() => handleCircleClick(popData?.imageOne)}
+                onClick={() => handleCircleClick(prop?.productDetails.imageOne)}
                 className=" "
               >
                 <FiCircle
                   size={15}
-                  fill={selectedImage === popData?.imageOne ? "black" : "gray"}
+                  fill={
+                    selectedImage === prop?.productDetails.imageOne
+                      ? "black"
+                      : "gray"
+                  }
                   color="white"
                 />
               </button>
               <button
-                onClick={() => handleCircleClick(popData?.imageTwo)}
+                onClick={() => handleCircleClick(prop?.productDetails.imageTwo)}
                 className="ml-[4px]"
               >
                 <FiCircle
                   size={15}
-                  fill={selectedImage === popData?.imageTwo ? "black" : "gray"}
+                  fill={
+                    selectedImage === prop?.productDetails.imageTwo
+                      ? "black"
+                      : "gray"
+                  }
                   color="white"
                 />
               </button>
               <button
-                onClick={() => handleCircleClick(popData?.imageThree)}
+                onClick={() =>
+                  handleCircleClick(prop?.productDetails.imageThree)
+                }
                 className=" ml-[4px]"
               >
                 <FiCircle
                   size={15}
                   fill={
-                    selectedImage === popData?.imageThree ? "black" : "gray"
+                    selectedImage === prop?.productDetails.imageThree
+                      ? "black"
+                      : "gray"
                   }
                   color="white"
                 />
