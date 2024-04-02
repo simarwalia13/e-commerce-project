@@ -125,6 +125,23 @@ const Neww = () => {
           </div>
         )}
 
+        {prevProductLength === 0 && (
+          <div className="flex justify-center items-center mt-[100px] opacity-80">
+            <div className="text-center">
+              <div className="text-xl mt-2 ">We couldn't find any matches</div>
+              <div className="text-xl mt-1 ">
+                Try different filters or another category.
+              </div>
+              <div
+                onClick={resetPrice}
+                className="cursor-pointer text-lg mt-7 hover:underline"
+              >
+                Clear filter
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="grid grid-cols-3 gap-y-8   ">
           {getImageData?.map((product, index) => (
             <div key={product?.productId} className=" relative ">

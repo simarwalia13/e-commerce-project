@@ -91,6 +91,8 @@ const Furniture = () => {
   return (
     <div className="  w-full ">
       <div className=" mb-[85px] ">
+        {/* when no item is found  */}
+
         {/* heading section */}
         <div className="flex flex-col items-center justify-center">
           <div className="text-6xl mb-3 mt-8">Furniture</div>
@@ -122,6 +124,22 @@ const Furniture = () => {
       {price <= 85.0 && (
         <div className="text-md mb-3 ml-4 opacity-90">
           {prevProductLength} products
+        </div>
+      )}
+      {prevProductLength === 0 && (
+        <div className="flex justify-center items-center mt-[100px] opacity-80">
+          <div className="text-center">
+            <div className="text-xl mt-2 ">We couldn't find any matches</div>
+            <div className="text-xl mt-1 ">
+              Try different filters or another category.
+            </div>
+            <div
+              onClick={resetPrice}
+              className="cursor-pointer text-lg mt-7 hover:underline"
+            >
+              Clear filter
+            </div>
+          </div>
         </div>
       )}
 
@@ -173,7 +191,7 @@ const Furniture = () => {
               )}
             </div>
             {/* product description */}
-            <div className="mt-2 text-lg flex flex-col items-center">
+            <div className="mt-2 text-lg flex flex-col items-center ">
               <div className="">{product.productCategory}</div>
               <div className=" ">{product.productPrice}</div>
             </div>

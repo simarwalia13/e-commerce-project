@@ -8,9 +8,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const navigate = useNavigate();
-  let location = useLocation();
-  const { pathname } = location;
-  console.log("pathname", pathname);
+  const location = useLocation();
+
   const data = [
     {
       tab: "All Products",
@@ -75,7 +74,7 @@ const Sidebar = () => {
               Home
             </div>
 
-            <div className="text-md  ">{pathname}</div>
+            <div className="text-md  ">{location.pathname}</div>
           </div>
 
           {/* mid section */}

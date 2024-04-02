@@ -98,7 +98,7 @@ const ViewCart = () => {
   };
   return (
     <div>
-      <div className="py-10 flex border justify-center gap-x-[60px]">
+      <div className="py-10 flex justify-center gap-x-[60px]">
         <div className="">
           {/* my cart  */}
           <div className="w-[730px]  border-b-[1px] border-black">
