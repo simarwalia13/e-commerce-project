@@ -161,8 +161,6 @@ const ShopAll = () => {
                     : ""
                 }   pointer-events-none p-2 text-center `}
                 onClick={(e) => {
-                  e.stopPropagation();
-
                   setpopUp(true);
 
                   setProductDetails(product);
