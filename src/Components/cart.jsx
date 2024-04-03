@@ -14,12 +14,9 @@ import { FiCircle } from "react-icons/fi";
 import { GoPlus } from "react-icons/go";
 import { FiMinus } from "react-icons/fi";
 import axios from "axios";
-import { Virtual, Navigation, Pagination } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
 
 const Cart = () => {
   const [productInfo, setProductInfo] = useAtom(atomProductInfo);
-  console.log("productInfo", productInfo);
   const [show, setShow] = useState(false);
   const [localAdd, setLocalAdd] = useState(1);
   const [add, setAdd] = useAtom(atomAdd);
@@ -30,16 +27,8 @@ const Cart = () => {
   const [siExpanded, setSiExpanded] = useState(false);
   const [, setCartt] = useAtom(atomShow);
   const [cartData, setCartData] = useAtom(atomSendCart);
-  console.log("cartData", cartData);
   const [cardId] = useAtom(cardDetails);
   const [data, setData] = useState([]);
-  const [hoveredIndex, setHoveredIndex] = useState(null);
-  // const [currentIndex, setCurrentIndex] = useState(0);
-  const [swiperRef, setSwiperRef] = useState(null);
-  const [slides, setSlides] = useState(
-    Array.from({ length: 500 }).map((_, index) => `Slide ${index + 1}`)
-  );
-
   useEffect(() => {
     axios
       .get(`/Data.json`)
@@ -120,14 +109,14 @@ const Cart = () => {
 
   const toggleShowMe = () => setSiExpanded((change) => !change);
 
-  const handleView = (productId) => {
-    const updatedProductInfo = data.find(
-      (item) => item.productId === productId
-    );
-    if (updatedProductInfo) {
-      setProductInfo(updatedProductInfo);
-    }
-  };
+  // const handleView = (productId) => {
+  //   const updatedProductInfo = data.find(
+  //     (item) => item.productId === productId
+  //   );
+  //   if (updatedProductInfo) {
+  //     setProductInfo(updatedProductInfo);
+  //   }
+  // };
 
   // const slides = Array.from({ length: 1000 }).map(
   //   (el, index) => `Slide ${index + 1}`
@@ -320,7 +309,7 @@ const Cart = () => {
 
       {/* you might also like */}
 
-      <div className="  text-2xl ml-4 mt-8 mb-10 select-none cursor-pointer border ">
+      {/* <div className="  text-2xl ml-4 mt-8 mb-10 select-none  border ">
         You Might Also Like
         <Swiper
           modules={[Virtual, Navigation, Pagination]}
@@ -335,7 +324,7 @@ const Cart = () => {
           virtual
         >
           <div className="flex items-center mt-10">
-            <HiOutlineChevronLeft size={170} className="cursor-pointer mr-4" />
+            <HiOutlineChevronLeft size={170} className=" mr-4" />
             <div className="  flex flex-row gap-x-8 overflow-hidden">
               {data.map((item, index) => (
                 <SwiperSlide key={item.productId} virtualIndex={index}>
@@ -358,11 +347,11 @@ const Cart = () => {
             </div>
             <HiOutlineChevronRight
               size={170}
-              className="cursor-pointer ml-4 border"
+              className="cursor-pointer ml-4 border bor "
             />
           </div>
         </Swiper>
-      </div>
+      </div> */}
     </div>
   );
 };

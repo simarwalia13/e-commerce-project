@@ -11,10 +11,8 @@ import ShowCart from "./ShowCart";
 const TopNavbar = () => {
   const [cartt, setCartt] = useAtom(atomShow);
   const [cartItem] = useAtom(atomCartItem);
-  console.log("cartItem", cartItem);
 
   const handleCartClick = () => {
-    console.log("Cart clicked");
     setCartt(true);
   };
   return (

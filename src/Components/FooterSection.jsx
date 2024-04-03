@@ -30,8 +30,6 @@ const FooterSection = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    console.log("Submitted email:", email);
   };
 
   const handleNavigate = (url) => {

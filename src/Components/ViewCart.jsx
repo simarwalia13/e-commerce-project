@@ -7,7 +7,6 @@ import { RxCross2 } from "react-icons/rx";
 
 const ViewCart = () => {
   const [cartData, setCartData] = useAtom(atomSendCart);
-  console.log("cartData", cartData);
   const [isLoading, setIsLoading] = useState(false);
   const plus = (productId) => {
     const updatedCartData = cartData.map((item) => {
@@ -38,9 +37,7 @@ const ViewCart = () => {
   };
 
   const removeItem = (product, e) => {
-    console.log("productId", product);
     e.stopPropagation();
-
     setCartData(
       cartData.filter((item) => {
         return item.newItem.productId !== product;
@@ -100,12 +97,9 @@ const ViewCart = () => {
     <div>
       <div className="py-10 flex justify-center gap-x-[60px]">
         <div className="">
-          {/* my cart  */}
           <div className="w-[730px]  border-b-[1px] border-black">
             <div className="text-xl mt-[4%] pb-3 mb-3   ">My Cart</div>
           </div>
-          {/* my cart end */}
-          {/* product  */}
           <div className="">
             {cartData?.map((item) => (
               <div className="  border-b-[1px] border-black flex justify-between w-fit mt-2">
@@ -113,14 +107,14 @@ const ViewCart = () => {
                   key={item.newItem.productId}
                   src={item.newItem.imageOne}
                   alt=""
-                  className=" w-[17%] p-2  select-none "
+                  className=" w-[17%] p-2   "
                 />
 
                 <div className="">
-                  <div className="text-lg text-[#5C5757] pt-3 mb-2 select-none">
+                  <div className="text-lg text-[#5C5757] pt-3 mb-2 ">
                     {item?.newItem.productCategory}
                   </div>
-                  <div className="text-md font-bold text-[#5C5757] select-none">
+                  <div className="text-md font-bold text-[#5C5757] ">
                     ${item?.newItem.productPrice}
                   </div>
                 </div>
@@ -134,7 +128,7 @@ const ViewCart = () => {
                       size={13}
                     />
 
-                    <div className=" w-fit text-black text-center select-none">
+                    <div className=" w-fit text-black text-center ">
                       {item?.newItem.quantity}
                     </div>
 
@@ -147,13 +141,13 @@ const ViewCart = () => {
                 </div>
                 {/* quantity end */}
                 {/* total price */}
-                <div className="text-black text-lg  mt-2   min-w-10 select-none">
+                <div className="text-black text-lg  mt-2   min-w-10 ">
                   ${calculateTotal(item?.newItem.productId)}
                 </div>
                 {/* total price end */}
                 {/* remove item */}
 
-                <div className="text-black mt-3 cursor-pointer select-none ">
+                <div className="text-black mt-3 cursor-pointer  ">
                   <RxCross2
                     size={19}
                     onClick={(e) => removeItem(item?.newItem.productId, e)}
@@ -166,7 +160,7 @@ const ViewCart = () => {
           </div>
         </div>
         {/* order summary */}
-        <div className=" flex flex-col select-none">
+        <div className=" flex flex-col ">
           <div className="text-xl mt-[11%] pb-5 mb-3 w-[300px] border-b-[1px] border-black">
             Order Summary
           </div>
@@ -192,7 +186,7 @@ const ViewCart = () => {
           <div
             onClick={handleLoading}
             disabled={isLoading}
-            className="mt-10 ml-3 bg-black text-white w-[260px] text-center hover:bg-opacity-70 py-2 cursor-pointer select-none "
+            className="mt-10 ml-3 bg-black text-white w-[260px] text-center hover:bg-opacity-70 py-2 cursor-pointer  "
           >
             {isLoading === true ? "Loading..." : "Checkout"}
           </div>

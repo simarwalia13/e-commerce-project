@@ -13,30 +13,19 @@ import {
 import { RxCross2 } from "react-icons/rx";
 
 import PopUpCard from "./PopUpCard";
-// import { useNavigate } from "react-router-dom";
 
 const Furniture = () => {
-  // const navigate = useNavigate();
-
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  // const [getData, setGetData] = useState([]);
   const [priceChangeStop] = useAtom(priceChangeStopAtom);
-  // console.log("priceChangeStop", priceChangeStop);
   const [price, setPrice] = useAtom(atomPrice);
   const [prevPrice, setPrevPrice] = useState(price);
-  // console.log("prevPrice", prevPrice);
   const [prevProductLength, setPrevProductLength] = useState(0);
-  // console.log("prevProductLength", prevProductLength);
   const [getImageData, setGetImageData] = useState();
   const [popUp, setpopUp] = useAtom(cardRender);
-  console.log("popUp", popUp);
-  // const [, setCartData] = useAtom(atomSendCart);
   const [cardId, setCardId] = useAtom(cardDetails);
-  console.log("cardId", cardId);
   const [productDetails, setProductDetails] = useState([]);
   const [, setProductInfo] = useAtom(atomProductInfo);
   const [, setCartId] = useAtom(atomCartId);
-  // const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
     axios
@@ -174,7 +163,7 @@ const Furniture = () => {
               {hoveredIndex === index && (
                 <div className="">
                   <div
-                    className=" absolute z-20 cursor-pointer bottom-0 left-0 right-0 bg-white bg-opacity-60 p-2 text-center "
+                    className=" absolute hidden group-hover:block z-20 cursor-pointer bottom-0 left-0 right-0 bg-white bg-opacity-60 p-2 text-center "
                     onClick={(e) => {
                       e.stopPropagation();
 
