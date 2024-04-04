@@ -31,9 +31,8 @@ const BestSeller = () => {
               {hoveredIndex === index && (
                 <button
                   className="absolute bottom-0 left-0 bg-opacity-80 right-0 bg-gray-800 pointer-events-none text-white p-2 text-center "
-                  onClick={() => {
-                    console.log(`Quick  : ${product.productId}`);
-                  }}
+                  // onClick={() => {
+                  // }}
                 >
                   Quick View
                 </button>

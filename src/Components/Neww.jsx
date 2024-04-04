@@ -16,28 +16,17 @@ import PopUpCard from "./PopUpCard";
 // import { useNavigate } from "react-router-dom";
 
 const Neww = () => {
-  // const navigate = useNavigate();
-
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  // const [getData, setGetData] = useState([]);
   const [priceChangeStop] = useAtom(priceChangeStopAtom);
-  // console.log("priceChangeStop", priceChangeStop);
   const [price, setPrice] = useAtom(atomPrice);
   const [prevPrice, setPrevPrice] = useState(price);
-  // console.log("prevPrice", prevPrice);
   const [prevProductLength, setPrevProductLength] = useState(0);
-  // console.log("prevProductLength", prevProductLength);
   const [getImageData, setGetImageData] = useState();
   const [popUp, setpopUp] = useAtom(cardRender);
-  console.log("popUp", popUp);
-  // const [, setCartData] = useAtom(atomSendCart);
-  const [cardId, setCardId] = useAtom(cardDetails);
-  console.log("cardId", cardId);
+  const [, setCardId] = useAtom(cardDetails);
   const [productDetails, setProductDetails] = useState([]);
   const [, setProductInfo] = useAtom(atomProductInfo);
   const [, setCartId] = useAtom(atomCartId);
-  // const [hovered, setHovered] = useState(false);
-
   useEffect(() => {
     axios
       .get("/Data.json")

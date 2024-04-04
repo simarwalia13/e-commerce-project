@@ -16,7 +16,6 @@ const Lights = () => {
   const [hoveredIndex, setHoveredIndex] = useState("");
   // const [getData, setGetData] = useState([]);
   const [priceChangeStop] = useAtom(priceChangeStopAtom);
-  console.log("priceChangeStop", priceChangeStop);
   const [price, setPrice] = useAtom(atomPrice);
   const [prevPrice, setPrevPrice] = useState(price);
   const [popUp, setpopUp] = useAtom(cardRender);

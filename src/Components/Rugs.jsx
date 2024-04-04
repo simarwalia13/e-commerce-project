@@ -6,16 +6,12 @@ import { RxCross2 } from "react-icons/rx";
 
 const Rugs = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  // const [getData, setGetData] = useState([]);
   const [priceChangeStop] = useAtom(priceChangeStopAtom);
-  console.log("priceChangeStop", priceChangeStop);
   const [price, setPrice] = useAtom(atomPrice);
   const [prevPrice, setPrevPrice] = useState(price);
-  // console.log("prevPrice", prevPrice);
   const [prevProductLength, setPrevProductLength] = useState(0);
   const [getImageData, setGetImageData] = useState();
   const [popUpCard, setPopUpCard] = useState(false);
-  console.log("popUpCard", popUpCard);
   useEffect(() => {
     axios
       .get("/Data.json")
@@ -153,7 +149,6 @@ const Rugs = () => {
                       }    p-2 text-center `}
                       onClick={() => {
                         setPopUpCard(true);
-                        console.log(`Quick  : ${product?.productId}`);
                       }}
                     >
                       Quick View
