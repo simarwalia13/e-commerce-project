@@ -115,7 +115,7 @@ const Rugs = () => {
 
           <div className="grid grid-cols-3 gap-y-12  ">
             {getImageData?.map((product, index) => (
-              <div key={product?.productId} className=" relative ">
+              <div key={product?.productId} className=" ">
                 <div className="relative w-[85%] ">
                   <img
                     src={
@@ -125,8 +125,14 @@ const Rugs = () => {
                     }
                     alt={`slide${product?.productId}_combined`}
                     className="max-w-full h-auto cursor-pointer"
-                    onMouseEnter={() => setHoveredIndex(index)}
-                    onMouseLeave={() => setHoveredIndex(null)}
+                    onMouseEnter={(e) => {
+                      e.stopPropagation();
+                      setHoveredIndex(index);
+                    }}
+                    onMouseLeave={(e) => {
+                      e.stopPropagation();
+                      setHoveredIndex(null);
+                    }}
                   />
 
                   {product.isProductNew === "yes" && (
@@ -145,8 +151,8 @@ const Rugs = () => {
                     </div>
                   )}
                   {hoveredIndex === index && (
-                    <button
-                      className={`absolute bottom-0 left-0 right-0 bg-white  ${
+                    <div
+                      className={`absolute  bottom-0 z-20 group-hover:block bottom-0 left-0 right-0 bg-white cursor-pointer ${
                         hoveredIndex === index
                           ? "transition ease-in-out 	duration-800 bg-opacity-80"
                           : ""
@@ -157,7 +163,7 @@ const Rugs = () => {
                       }}
                     >
                       Quick View
-                    </button>
+                    </div>
                   )}
                 </div>
                 {/* product description */}

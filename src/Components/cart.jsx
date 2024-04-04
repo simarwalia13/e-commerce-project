@@ -14,8 +14,6 @@ import { FiCircle } from "react-icons/fi";
 import { GoPlus } from "react-icons/go";
 import { FiMinus } from "react-icons/fi";
 import axios from "axios";
-import { Virtual, Navigation, Pagination } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
 
 const Cart = () => {
   const [productInfo, setProductInfo] = useAtom(atomProductInfo);
@@ -34,11 +32,7 @@ const Cart = () => {
   const [cardId] = useAtom(cardDetails);
   const [data, setData] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  // const [currentIndex, setCurrentIndex] = useState(0);
-  const [swiperRef, setSwiperRef] = useState(null);
-  const [slides, setSlides] = useState(
-    Array.from({ length: 500 }).map((_, index) => `Slide ${index + 1}`)
-  );
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     axios
@@ -128,10 +122,7 @@ const Cart = () => {
       setProductInfo(updatedProductInfo);
     }
   };
-
-  // const slides = Array.from({ length: 1000 }).map(
-  //   (el, index) => `Slide ${index + 1}`
-  // );
+  const handleNext = () => {};
 
   return (
     <div>
@@ -322,46 +313,36 @@ const Cart = () => {
 
       <div className="  text-2xl ml-4 mt-8 mb-10 select-none cursor-pointer border ">
         You Might Also Like
-        <Swiper
-          modules={[Virtual, Navigation, Pagination]}
-          onSwiper={setSwiperRef}
-          slidesPerView={3}
-          centeredSlides={true}
-          spaceBetween={30}
-          pagination={{
-            type: "fraction",
-          }}
-          navigation={true}
-          virtual
-        >
-          <div className="flex items-center mt-10">
-            <HiOutlineChevronLeft size={170} className="cursor-pointer mr-4" />
-            <div className="  flex flex-row gap-x-8 overflow-hidden">
-              {data.map((item, index) => (
-                <SwiperSlide key={item.productId} virtualIndex={index}>
-                  <img
-                    key={item.productId}
-                    virtualIndex={index}
-                    src={
-                      hoveredIndex === item.productId
-                        ? item.imageTwo
-                        : item.imageOne
-                    }
-                    alt=""
-                    className={`w-[18%] border border-red-400  transition-transform duration-300 transform`}
-                    onMouseEnter={() => setHoveredIndex(item.productId)}
-                    onMouseLeave={() => setHoveredIndex(null)}
-                    onClick={() => handleView(item.productId, index)}
-                  />
-                </SwiperSlide>
-              ))}
-            </div>
-            <HiOutlineChevronRight
-              size={170}
-              className="cursor-pointer ml-4 border"
-            />
+        <div className="flex items-center mt-10">
+          <HiOutlineChevronLeft
+            size={170}
+            className="cursor-pointer mr-4"
+            onClick={handlePrev}
+          />
+          <div className="  flex flex-row gap-x-8 overflow-hidden">
+            {data.map((item, index) => (
+              <img
+                key={item.productId}
+                virtualIndex={index}
+                src={
+                  hoveredIndex === item.productId
+                    ? item.imageTwo
+                    : item.imageOne
+                }
+                alt=""
+                className={`w-[18%] border border-red-400  transition-transform duration-300 transform`}
+                onMouseEnter={() => setHoveredIndex(item.productId)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                onClick={() => handleView(item.productId, index)}
+              />
+            ))}
           </div>
-        </Swiper>
+          <HiOutlineChevronRight
+            size={170}
+            className="cursor-pointer ml-4 border"
+            onClick={handleNext}
+          />
+        </div>
       </div>
     </div>
   );

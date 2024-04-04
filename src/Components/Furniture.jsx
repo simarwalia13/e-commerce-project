@@ -174,7 +174,7 @@ const Furniture = () => {
               {hoveredIndex === index && (
                 <div className="">
                   <div
-                    className=" absolute z-20 cursor-pointer bottom-0 left-0 right-0 bg-white bg-opacity-60 p-2 text-center "
+                    className=" absolute z-20  group-hover:block cursor-pointer bottom-0 left-0 right-0 bg-white bg-opacity-60 p-2 text-center "
                     onClick={(e) => {
                       e.stopPropagation();
 
