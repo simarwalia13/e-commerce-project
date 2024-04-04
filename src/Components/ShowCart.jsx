@@ -15,15 +15,6 @@ const ShowCart = () => {
   const [cartData, setCartData] = useAtom(atomSendCart);
   const [isLoading, setIsLoading] = useState(false);
   const [, setCartItem] = useAtom(atomCartItem);
-  console.log("cartDat", cartData);
-
-  // const [add, setAdd] = useAtom(atomAdd);
-  // const [cartItems, setCartItems] = useState([]);
-  // console.log("cartItems", cartItems);
-  // console.log("add", add);
-  console.log("cat", cartt);
-  // console.log("todoData", todoData);
-
   const notDisplay = (e) => {
     e.stopPropagation();
     setCartt(true);
@@ -57,7 +48,6 @@ const ShowCart = () => {
   };
 
   const removeItem = (product, e) => {
-    console.log("productId", product);
     e.stopPropagation();
 
     setCartData(

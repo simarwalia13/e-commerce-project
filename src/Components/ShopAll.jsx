@@ -1,8 +1,14 @@
 import axios from "axios";
 import { useAtom } from "jotai";
 import React, { useEffect, useState } from "react";
-import { atomPrice, priceChangeStopAtom } from "./store";
+import {
+  atomPrice,
+  cardDetails,
+  cardRender,
+  priceChangeStopAtom,
+} from "./store";
 import { RxCross2 } from "react-icons/rx";
+import PopUpCard from "./PopUpCard";
 
 const ShopAll = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -11,6 +17,9 @@ const ShopAll = () => {
 
   const [price, setPrice] = useAtom(atomPrice);
   const [prevPrice, setPrevPrice] = useState(price);
+  const [popUp, setpopUp] = useAtom(cardRender);
+  const [productDetails, setProductDetails] = useState([]);
+  const [, setCardId] = useAtom(cardDetails);
 
   const [prevProductLength, setPrevProductLength] = useState(0);
   const [getImageData, setGetImageData] = useState();
@@ -123,7 +132,7 @@ const ShopAll = () => {
                   hoveredIndex === index ? product.imageTwo : product.imageOne
                 }
                 alt={`slide${product?.productId}_combined`}
-                className="max-w-full h-auto cursor-pointer"
+                className="max-w-full h-auto cursor-pointer group"
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
               />
@@ -144,20 +153,24 @@ const ShopAll = () => {
                 </div>
               )}
 
-              {hoveredIndex === index && (
-                <button
-                  className={`absolute bottom-0 left-0 right-0 bg-white  ${
-                    hoveredIndex === index
-                      ? "transition ease-in-out 	duration-800 bg-opacity-80"
-                      : ""
-                  }   pointer-events-none p-2 text-center `}
-                  onClick={() => {
-                    console.log(`Quick  : ${product?.productId}`);
-                  }}
-                >
-                  Quick View
-                </button>
-              )}
+              {/* {hoveredIndex === index && ( */}
+              <button
+                className={`absolute hidden group-hover:block bottom-0 left-0 right-0 bg-white  ${
+                  hoveredIndex === index
+                    ? "transition ease-in-out 	duration-800 bg-opacity-80"
+                    : ""
+                }   pointer-events-none p-2 text-center `}
+                onClick={(e) => {
+                  setpopUp(true);
+
+                  setProductDetails(product);
+
+                  setCardId(product?.productId);
+                }}
+              >
+                Quick View
+              </button>
+              {/* )} */}
             </div>
             {/* product description */}
             <div className="mt-2 text-lg flex flex-col items-center">
@@ -168,6 +181,11 @@ const ShopAll = () => {
         ))}
       </div>
       {/* card section */}
+      {popUp === true && (
+        <div className="">
+          <PopUpCard productDetails={productDetails} />
+        </div>
+      )}
     </div>
   );
 };

@@ -17,7 +17,6 @@ import axios from "axios";
 
 const Cart = () => {
   const [productInfo, setProductInfo] = useAtom(atomProductInfo);
-  console.log("productInfo", productInfo);
   const [show, setShow] = useState(false);
   const [localAdd, setLocalAdd] = useState(1);
   const [add, setAdd] = useAtom(atomAdd);
@@ -28,12 +27,14 @@ const Cart = () => {
   const [siExpanded, setSiExpanded] = useState(false);
   const [, setCartt] = useAtom(atomShow);
   const [cartData, setCartData] = useAtom(atomSendCart);
-  console.log("cartData", cartData);
   const [cardId] = useAtom(cardDetails);
   const [data, setData] = useState([]);
+<<<<<<< HEAD
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
+=======
+>>>>>>> de54116e255e3d43662561d0830fc6f5bc370002
   useEffect(() => {
     axios
       .get(`/Data.json`)
@@ -114,6 +115,7 @@ const Cart = () => {
 
   const toggleShowMe = () => setSiExpanded((change) => !change);
 
+<<<<<<< HEAD
   const handleView = (productId) => {
     const updatedProductInfo = data.find(
       (item) => item.productId === productId
@@ -123,6 +125,20 @@ const Cart = () => {
     }
   };
   const handleNext = () => {};
+=======
+  // const handleView = (productId) => {
+  //   const updatedProductInfo = data.find(
+  //     (item) => item.productId === productId
+  //   );
+  //   if (updatedProductInfo) {
+  //     setProductInfo(updatedProductInfo);
+  //   }
+  // };
+
+  // const slides = Array.from({ length: 1000 }).map(
+  //   (el, index) => `Slide ${index + 1}`
+  // );
+>>>>>>> de54116e255e3d43662561d0830fc6f5bc370002
 
   return (
     <div>
@@ -311,8 +327,9 @@ const Cart = () => {
 
       {/* you might also like */}
 
-      <div className="  text-2xl ml-4 mt-8 mb-10 select-none cursor-pointer border ">
+      {/* <div className="  text-2xl ml-4 mt-8 mb-10 select-none  border ">
         You Might Also Like
+<<<<<<< HEAD
         <div className="flex items-center mt-10">
           <HiOutlineChevronLeft
             size={170}
@@ -344,6 +361,49 @@ const Cart = () => {
           />
         </div>
       </div>
+=======
+        <Swiper
+          modules={[Virtual, Navigation, Pagination]}
+          onSwiper={setSwiperRef}
+          slidesPerView={3}
+          centeredSlides={true}
+          spaceBetween={30}
+          pagination={{
+            type: "fraction",
+          }}
+          navigation={true}
+          virtual
+        >
+          <div className="flex items-center mt-10">
+            <HiOutlineChevronLeft size={170} className=" mr-4" />
+            <div className="  flex flex-row gap-x-8 overflow-hidden">
+              {data.map((item, index) => (
+                <SwiperSlide key={item.productId} virtualIndex={index}>
+                  <img
+                    key={item.productId}
+                    virtualIndex={index}
+                    src={
+                      hoveredIndex === item.productId
+                        ? item.imageTwo
+                        : item.imageOne
+                    }
+                    alt=""
+                    className={`w-[18%] border border-red-400  transition-transform duration-300 transform`}
+                    onMouseEnter={() => setHoveredIndex(item.productId)}
+                    onMouseLeave={() => setHoveredIndex(null)}
+                    onClick={() => handleView(item.productId, index)}
+                  />
+                </SwiperSlide>
+              ))}
+            </div>
+            <HiOutlineChevronRight
+              size={170}
+              className="cursor-pointer ml-4 border bor "
+            />
+          </div>
+        </Swiper>
+      </div> */}
+>>>>>>> de54116e255e3d43662561d0830fc6f5bc370002
     </div>
   );
 };

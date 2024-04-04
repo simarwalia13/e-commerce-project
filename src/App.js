@@ -8,19 +8,21 @@ import ShopAll from "./Components/ShopAll";
 import Furniture from "./Components/Furniture";
 import Lights from "./Components/Lights";
 import Rugs from "./Components/Rugs";
-import Cart from "./Components/Cart";
 import LayoutCart from "./Components/LayoutCart";
 import ViewCart from "./Components/ViewCart";
 import About from "./Components/About";
 
 import Sale from "./Components/Sale";
-import Contactt from "./Components/Contactt";
 import Neww from "./Components/Neww";
 import Best from "./Components/Best";
+import Cart from "./Components/Cart";
+import Contact from "./Components/Contactt";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <>
+      <Toaster />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route
@@ -91,7 +93,7 @@ function App() {
           path="/contact"
           element={
             <LayoutCart>
-              <Contactt />
+              <Contact />
             </LayoutCart>
           }
         />

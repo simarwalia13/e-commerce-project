@@ -20,7 +20,6 @@ const PopUpCard = ({ ...prop }) => {
   const navigate = useNavigate();
 
   const [cardId] = useAtom(cardDetails);
-  // console.log("ca", cardId);
   const [, setPopUp] = useAtom(cardRender);
 
   const [popData, setPopData] = useState([]);
@@ -32,7 +31,6 @@ const PopUpCard = ({ ...prop }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [cartData, setCartData] = useAtom(atomSendCart);
-  console.log("cartData", cartData);
   const [cartt, setCartt] = useAtom(atomShow);
   const [localAdd, setLocalAdd] = useState(1);
   const [, setProductInfo] = useAtom(atomProductInfo);
