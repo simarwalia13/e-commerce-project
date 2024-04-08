@@ -13,8 +13,11 @@ import {
 import { RxCross2 } from "react-icons/rx";
 
 import PopUpCard from "./PopUpCard";
+import { useNavigate } from "react-router-dom";
 
 const Furniture = () => {
+  const navigate = useNavigate();
+
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [priceChangeStop] = useAtom(priceChangeStopAtom);
   const [price, setPrice] = useAtom(atomPrice);
@@ -22,7 +25,7 @@ const Furniture = () => {
   const [prevProductLength, setPrevProductLength] = useState(0);
   const [getImageData, setGetImageData] = useState();
   const [popUp, setpopUp] = useAtom(cardRender);
-  const [cardId, setCardId] = useAtom(cardDetails);
+  const [, setCardId] = useAtom(cardDetails);
   const [productDetails, setProductDetails] = useState([]);
   const [, setProductInfo] = useAtom(atomProductInfo);
   const [, setCartId] = useAtom(atomCartId);
@@ -31,8 +34,6 @@ const Furniture = () => {
     axios
       .get("/Data.json")
       .then((response) => {
-        // setGetData(response?.data);
-
         setPrevProductLength(() => {
           const filteredData = response?.data.filter(
             (product) =>
@@ -66,13 +67,12 @@ const Furniture = () => {
     setPrice(85.0);
   };
 
-  const handleImageClick = (index, product, e) => {
+  const handleImageClick = (product, e) => {
     e.stopPropagation();
-    setHoveredIndex(index);
 
     setCartId(product?.productId);
     setTimeout(() => {
-      // navigate("/product");
+      navigate("/product");
       setProductInfo(product);
     }, 1000);
   };
@@ -134,15 +134,23 @@ const Furniture = () => {
 
       <div className="grid grid-cols-3 gap-y-8   ">
         {getImageData?.map((product, index) => (
-          <div key={product?.productId} className=" relative ">
+          <div key={product?.productId} className="  ">
             <div className="relative w-[85%] ">
               <img
                 src={
                   hoveredIndex === index ? product.imageTwo : product.imageOne
                 }
                 alt={`slide${product?.productId}_combined`}
-                className="max-w-full h-auto cursor-pointer"
-                onClick={(e) => handleImageClick(index, product, e)}
+                className="max-w-full h-auto cursor-pointer group"
+                onClick={(e) => handleImageClick(product, e)}
+                onMouseEnter={(e) => {
+                  e.stopPropagation();
+                  setHoveredIndex(index);
+                }}
+                onMouseLeave={(e) => {
+                  e.stopPropagation();
+                  setHoveredIndex(null);
+                }}
               />
               {product.isProductNew === "yes" && (
                 <div className="absolute bottom-[96%] px-2 py-[2px] text-sm bg-[#3F5C58] text-white">
@@ -160,24 +168,22 @@ const Furniture = () => {
                 </div>
               )}
 
-              {hoveredIndex === index && (
-                <div className="">
-                  <div
-                    className=" absolute z-20 cursor-pointer bottom-0 left-0 right-0 bg-white bg-opacity-60 p-2 text-center "
-                    onClick={(e) => {
-                      e.stopPropagation();
+              <div className="">
+                <div
+                  className=" absolute z-20  group-hover:block cursor-pointer bottom-0 left-0 right-0 bg-white bg-opacity-60 p-2 text-center "
+                  onClick={(e) => {
+                    e.stopPropagation();
 
-                      setpopUp(true);
+                    setpopUp(true);
 
-                      setProductDetails(product);
+                    setProductDetails(product);
 
-                      setCardId(product?.productId);
-                    }}
-                  >
-                    Quick View
-                  </div>
+                    setCardId(product?.productId);
+                  }}
+                >
+                  Quick View
                 </div>
-              )}
+              </div>
             </div>
             {/* product description */}
             <div className="mt-2 text-lg flex flex-col items-center ">

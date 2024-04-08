@@ -11,10 +11,12 @@ import {
 } from "./store";
 import { RxCross2 } from "react-icons/rx";
 import PopUpCard from "./PopUpCard";
-
+import { useNavigate } from "react-router-dom";
 const Lights = () => {
+  const navigate = useNavigate();
+
   const [hoveredIndex, setHoveredIndex] = useState("");
-  // const [getData, setGetData] = useState([]);
+
   const [priceChangeStop] = useAtom(priceChangeStopAtom);
   const [price, setPrice] = useAtom(atomPrice);
   const [prevPrice, setPrevPrice] = useState(price);
@@ -29,8 +31,6 @@ const Lights = () => {
     axios
       .get("/Data.json")
       .then((response) => {
-        // setGetData(response?.data);
-
         setPrevProductLength(() => {
           const filteredData = response?.data.filter(
             (product) =>
@@ -69,7 +69,7 @@ const Lights = () => {
 
     setCartId(product?.productId);
     setTimeout(() => {
-      // navigate("/product");
+      navigate("/product");
       setProductInfo(product);
     }, 1000);
   };
@@ -136,12 +136,20 @@ const Lights = () => {
                 <img
                   src={
                     hoveredIndex === product?.productId
-                      ? product.x
+                      ? product.imageTwo
                       : product.imageOne
                   }
                   alt={`slide${product?.productId}_combined`}
-                  className="max-w-full h-auto cursor-pointer"
+                  className="max-w-full h-auto cursor-pointer group"
                   onClick={(e) => handleImageClick(index, product, e)}
+                  onMouseEnter={(e) => {
+                    e.stopPropagation();
+                    setHoveredIndex(product.productId);
+                  }}
+                  onMouseLeave={(e) => {
+                    e.stopPropagation();
+                    setHoveredIndex(null);
+                  }}
                 />
                 {product.isProductNew === "yes" && (
                   <div className="absolute bottom-[96%] px-2 py-[2px] text-sm bg-[#3F5C58] text-white">
@@ -159,24 +167,20 @@ const Lights = () => {
                   </div>
                 )}
 
-                {hoveredIndex === index && (
-                  <button
-                    className={`absolute bottom-0 left-0 right-0 bg-white  ${
-                      hoveredIndex === product.productId ? " bg-opacity-80" : ""
-                    }    p-2 text-center `}
-                    onClick={(e) => {
-                      e.stopPropagation();
+                <div
+                  className="absolute cursor-pointer z-20  group-hover:block bottom-0 left-0 right-0 bg-white bg-opacity-80    p-2 text-center"
+                  onClick={(e) => {
+                    e.stopPropagation();
 
-                      setpopUp(true);
+                    setpopUp(true);
 
-                      setProductDetails(product);
+                    setProductDetails(product);
 
-                      setCardId(product?.productId);
-                    }}
-                  >
-                    Quick View
-                  </button>
-                )}
+                    setCardId(product?.productId);
+                  }}
+                >
+                  Quick View
+                </div>
               </div>
               {/* product description */}
               <div className="mt-2 text-lg flex flex-col items-center">

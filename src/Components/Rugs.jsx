@@ -1,23 +1,37 @@
 import axios from "axios";
 import { useAtom } from "jotai";
 import React, { useEffect, useState } from "react";
-import { atomPrice, priceChangeStopAtom } from "./store";
+import {
+  atomCartId,
+  atomPrice,
+  atomProductInfo,
+  cardDetails,
+  cardRender,
+  priceChangeStopAtom,
+} from "./store";
 import { RxCross2 } from "react-icons/rx";
 
+import PopUpCard from "./PopUpCard";
+import { useNavigate } from "react-router-dom";
+
 const Rugs = () => {
+  const navigate = useNavigate();
+
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [priceChangeStop] = useAtom(priceChangeStopAtom);
   const [price, setPrice] = useAtom(atomPrice);
   const [prevPrice, setPrevPrice] = useState(price);
   const [prevProductLength, setPrevProductLength] = useState(0);
   const [getImageData, setGetImageData] = useState();
-  const [popUpCard, setPopUpCard] = useState(false);
+  const [popUp, setpopUp] = useAtom(cardRender);
+  const [, setCardId] = useAtom(cardDetails);
+  const [productDetails, setProductDetails] = useState([]);
+  const [, setProductInfo] = useAtom(atomProductInfo);
+  const [, setCartId] = useAtom(atomCartId);
   useEffect(() => {
     axios
       .get("/Data.json")
       .then((response) => {
-        // setGetData(response?.data);
-
         setPrevProductLength(() => {
           const filteredData = response?.data.filter(
             (product) =>
@@ -50,7 +64,16 @@ const Rugs = () => {
   const resetPrice = () => {
     setPrice(85.0);
   };
+  const handleImageClick = (index, product, e) => {
+    e.stopPropagation();
+    setHoveredIndex(index);
 
+    setCartId(product?.productId);
+    setTimeout(() => {
+      navigate("/product");
+      setProductInfo(product);
+    }, 1000);
+  };
   return (
     <div>
       <div>
@@ -121,6 +144,7 @@ const Rugs = () => {
                     }
                     alt={`slide${product?.productId}_combined`}
                     className="max-w-full h-auto cursor-pointer"
+                    onClick={(e) => handleImageClick(index, product, e)}
                     onMouseEnter={(e) => {
                       e.stopPropagation();
                       setHoveredIndex(index);
@@ -146,20 +170,26 @@ const Rugs = () => {
                       Bestseller
                     </div>
                   )}
-                  {hoveredIndex === index && (
-                    <div
-                      className={`absolute  bottom-0 z-20 group-hover:block bottom-0 left-0 right-0 bg-white cursor-pointer ${
-                        hoveredIndex === index
-                          ? "transition ease-in-out 	duration-800 bg-opacity-80"
-                          : ""
-                      }    p-2 text-center `}
-                      onClick={() => {
-                        setPopUpCard(true);
-                      }}
-                    >
-                      Quick View
-                    </div>
-                  )}
+                  {/* {hoveredIndex === index && ( */}
+                  <div
+                    className={`absolute  bottom-0 z-20 group-hover:block bottom-0 left-0 right-0 bg-white cursor-pointer ${
+                      hoveredIndex === index
+                        ? "transition ease-in-out 	duration-800 bg-opacity-80"
+                        : ""
+                    }    p-2 text-center `}
+                    onClick={(e) => {
+                      e.stopPropagation();
+
+                      setpopUp(true);
+
+                      setProductDetails(product);
+
+                      setCardId(product?.productId);
+                    }}
+                  >
+                    Quick View
+                  </div>
+                  {/* )} */}
                 </div>
                 {/* product description */}
                 <div className="mt-2 text-lg flex flex-col items-center">
@@ -169,8 +199,14 @@ const Rugs = () => {
               </div>
             ))}
           </div>
-          {/* card section */}
         </div>
+        {/* card section */}
+
+        {popUp === true && (
+          <div className="">
+            <PopUpCard productDetails={productDetails} />
+          </div>
+        )}
       </div>
     </div>
   );

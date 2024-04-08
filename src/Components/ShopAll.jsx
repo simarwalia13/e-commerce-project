@@ -2,15 +2,20 @@ import axios from "axios";
 import { useAtom } from "jotai";
 import React, { useEffect, useState } from "react";
 import {
+  atomCartId,
   atomPrice,
+  atomProductInfo,
   cardDetails,
   cardRender,
   priceChangeStopAtom,
 } from "./store";
 import { RxCross2 } from "react-icons/rx";
 import PopUpCard from "./PopUpCard";
+import { useNavigate } from "react-router-dom";
 
 const ShopAll = () => {
+  const navigate = useNavigate();
+
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [getData, setGetData] = useState([]);
   const [priceChangeStop] = useAtom(priceChangeStopAtom);
@@ -23,6 +28,8 @@ const ShopAll = () => {
 
   const [prevProductLength, setPrevProductLength] = useState(0);
   const [getImageData, setGetImageData] = useState();
+  const [, setProductInfo] = useAtom(atomProductInfo);
+  const [, setCartId] = useAtom(atomCartId);
   useEffect(() => {
     axios
       .get("/Data.json")
@@ -67,6 +74,15 @@ const ShopAll = () => {
     } else {
       return prevProductLength;
     }
+  };
+  const handleImageClick = (product, e) => {
+    e.stopPropagation();
+
+    setCartId(product?.productId);
+    setTimeout(() => {
+      navigate("/product");
+      setProductInfo(product);
+    }, 1000);
   };
 
   return (
@@ -123,18 +139,25 @@ const ShopAll = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-3 gap-y-[50px]  ">
+      <div className="grid grid-cols-3 gap-y-[50px] select-none  ">
         {getImageData?.map((product, index) => (
-          <div key={product?.productId} className=" relative ">
+          <div key={product.productId} className="  ">
             <div className="relative w-[85%] ">
               <img
                 src={
                   hoveredIndex === index ? product.imageTwo : product.imageOne
                 }
                 alt={`slide${product?.productId}_combined`}
-                className="max-w-full h-auto cursor-pointer group"
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
+                className="max-w-full h-auto  cursor-pointer group"
+                onClick={(e) => handleImageClick(product, e)}
+                onMouseEnter={(e) => {
+                  e.stopPropagation();
+                  setHoveredIndex(index);
+                }}
+                onMouseLeave={(e) => {
+                  e.stopPropagation();
+                  setHoveredIndex(null);
+                }}
               />
 
               {product.isProductNew === "yes" && (
@@ -153,13 +176,8 @@ const ShopAll = () => {
                 </div>
               )}
 
-              {/* {hoveredIndex === index && ( */}
-              <button
-                className={`absolute hidden group-hover:block bottom-0 left-0 right-0 bg-white  ${
-                  hoveredIndex === index
-                    ? "transition ease-in-out 	duration-800 bg-opacity-80"
-                    : ""
-                }   pointer-events-none p-2 text-center `}
+              <div
+                className="absolute cursor-pointer z-20 group-hover:block bottom-0 left-0 right-0 bg-white bg-opacity-70 p-2 text-center"
                 onClick={(e) => {
                   setpopUp(true);
 
@@ -169,8 +187,7 @@ const ShopAll = () => {
                 }}
               >
                 Quick View
-              </button>
-              {/* )} */}
+              </div>
             </div>
             {/* product description */}
             <div className="mt-2 text-lg flex flex-col items-center">

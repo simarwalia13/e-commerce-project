@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { atomSendCart } from "./store";
+import { atomBuyItem, atomSendCart } from "./store";
 import { useAtom } from "jotai";
 import { FiMinus } from "react-icons/fi";
 import { GoPlus } from "react-icons/go";
 import { RxCross2 } from "react-icons/rx";
+import Buy from "./Buy";
 
 const ViewCart = () => {
   const [cartData, setCartData] = useAtom(atomSendCart);
-  console.log("cartData", cartData);
+  // console.log("cartData", cartData);
   const [isLoading, setIsLoading] = useState(false);
+  const [buyItem, setBuyItem] = useAtom(atomBuyItem);
   const plus = (productId) => {
     const updatedCartData = cartData.map((item) => {
       if (item.newItem.productId === productId) {
@@ -91,6 +93,7 @@ const ViewCart = () => {
   const handleLoading = () => {
     setIsLoading(true);
     setTimeout(() => {
+      setBuyItem(true);
       setIsLoading(false);
     }, 2000);
   };
@@ -193,6 +196,7 @@ const ViewCart = () => {
           </div>
         </div>
       </div>
+      {buyItem && <Buy />}
     </div>
   );
 };

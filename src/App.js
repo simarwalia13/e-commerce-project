@@ -16,7 +16,7 @@ import Sale from "./Components/Sale";
 import Neww from "./Components/Neww";
 import Best from "./Components/Best";
 import Cart from "./Components/Cart";
-import Contact from "./Components/Contactt";
+import Contact from "./Components/Contact";
 import { Toaster } from "react-hot-toast";
 
 function App() {

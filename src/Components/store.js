@@ -12,3 +12,4 @@ export const atomAdd = atom(1);
 export const atomCartId = atom("");
 export const atomProductInfo = atom([]);
 export const atomCartItem = atom(0);
+export const atomBuyItem = atom(false);

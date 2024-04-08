@@ -13,32 +13,29 @@ import {
 import { RxCross2 } from "react-icons/rx";
 
 import PopUpCard from "./PopUpCard";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Best = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  // const [getData, setGetData] = useState([]);
+
   const [priceChangeStop] = useAtom(priceChangeStopAtom);
   const [price, setPrice] = useAtom(atomPrice);
   const [prevPrice, setPrevPrice] = useState(price);
   const [prevProductLength, setPrevProductLength] = useState(0);
-  const [getImageData, setGetImageData] = useState();
+  const [getImageData, setGetImageData] = useState([]);
   const [popUp, setpopUp] = useAtom(cardRender);
-  // const [, setCartData] = useAtom(atomSendCart);
-  const [cardId, setCardId] = useAtom(cardDetails);
+
+  const [, setCardId] = useAtom(cardDetails);
   const [productDetails, setProductDetails] = useState([]);
   const [, setProductInfo] = useAtom(atomProductInfo);
   const [, setCartId] = useAtom(atomCartId);
-  // const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
     axios
       .get("/Data.json")
       .then((response) => {
-        // setGetData(response?.data);
-
         setPrevProductLength(() => {
           const filteredData = response?.data.filter(
             (product) =>
@@ -58,7 +55,7 @@ const Best = () => {
         });
       })
       .catch((error) => {
-        console.error(error);
+        console.log(error);
       });
   }, [prevPrice]);
 
@@ -72,13 +69,12 @@ const Best = () => {
     setPrice(85.0);
   };
 
-  const handleImageClick = (index, product, e) => {
+  const handleImageClick = (product, e) => {
     e.stopPropagation();
-    setHoveredIndex(index);
 
     setCartId(product?.productId);
     setTimeout(() => {
-      // navigate("/product");
+      navigate("/product");
       setProductInfo(product);
     }, 1000);
   };
@@ -88,7 +84,7 @@ const Best = () => {
         <div className=" mb-[85px] ">
           {/* heading section */}
           <div className="flex flex-col items-center justify-center">
-            <div className="text-6xl mb-3 mt-8">Sale</div>
+            <div className="text-6xl mb-3 mt-8">Bestsellers</div>
             <p className="w-fit text-center">
               This is your category description. It’s a great place to tell
               customers what this category is
@@ -147,42 +143,39 @@ const Best = () => {
                   }
                   alt={`slide${product?.productId}_combined`}
                   className="max-w-full h-auto cursor-pointer"
-                  onClick={(e) => handleImageClick(index, product, e)}
+                  onClick={(e) => handleImageClick(product, e)}
+                  onMouseEnter={(e) => {
+                    e.stopPropagation();
+                    setHoveredIndex(index);
+                  }}
+                  onMouseLeave={(e) => {
+                    e.stopPropagation();
+                    setHoveredIndex(null);
+                  }}
                 />
-                {product.isProductNew === "yes" && (
-                  <div className="absolute bottom-[96%] px-2 py-[2px] text-sm bg-[#3F5C58] text-white">
-                    New
-                  </div>
-                )}
-                {product.productOnSale === "true" && (
-                  <div className="absolute bottom-[96%] px-2 py-[2px] text-sm bg-[#3F5C58] text-white">
-                    Sale
-                  </div>
-                )}
+
                 {product.isProductBestseller === "1" && (
                   <div className="absolute bottom-[96%] px-2 py-[2px] text-sm bg-[#3F5C58] text-white">
                     Bestseller
                   </div>
                 )}
 
-                {hoveredIndex === index && (
-                  <div className="">
-                    <div
-                      className=" absolute z-20 cursor-pointer bottom-0 left-0 right-0 bg-white bg-opacity-60 p-2 text-center "
-                      onClick={(e) => {
-                        e.stopPropagation();
+                <div className="">
+                  <div
+                    className=" absolute z-20 cursor-pointer group-hover:block bottom-0 left-0 right-0 bg-white bg-opacity-60 p-2 text-center "
+                    onClick={(e) => {
+                      e.stopPropagation();
 
-                        setpopUp(true);
+                      setpopUp(true);
 
-                        setProductDetails(product);
+                      setProductDetails(product);
 
-                        setCardId(product?.productId);
-                      }}
-                    >
-                      Quick View
-                    </div>
+                      setCardId(product?.productId);
+                    }}
+                  >
+                    Quick View
                   </div>
-                )}
+                </div>
               </div>
               {/* product description */}
               <div className="mt-2 text-lg flex flex-col items-center">
