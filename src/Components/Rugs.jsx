@@ -1,8 +1,14 @@
 import axios from "axios";
 import { useAtom } from "jotai";
 import React, { useEffect, useState } from "react";
-import { atomPrice, priceChangeStopAtom } from "./store";
+import {
+  atomPrice,
+  cardDetails,
+  cardRender,
+  priceChangeStopAtom,
+} from "./store";
 import { RxCross2 } from "react-icons/rx";
+import PopUpCard from "./PopUpCard";
 
 const Rugs = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -11,7 +17,10 @@ const Rugs = () => {
   const [prevPrice, setPrevPrice] = useState(price);
   const [prevProductLength, setPrevProductLength] = useState(0);
   const [getImageData, setGetImageData] = useState();
-  const [popUpCard, setPopUpCard] = useState(false);
+  const [popUp, setpopUp] = useAtom(cardRender);
+  const [productDetails, setProductDetails] = useState([]);
+  const [, setCardId] = useAtom(cardDetails);
+
   useEffect(() => {
     axios
       .get("/Data.json")
@@ -112,7 +121,7 @@ const Rugs = () => {
           <div className="grid grid-cols-3 gap-y-12  ">
             {getImageData?.map((product, index) => (
               <div key={product?.productId} className=" ">
-                <div className="relative w-[85%] ">
+                <div className="relative w-[85%] group">
                   <img
                     src={
                       hoveredIndex === index
@@ -146,23 +155,27 @@ const Rugs = () => {
                       Bestseller
                     </div>
                   )}
-                  {hoveredIndex === index && (
-                    <div
-                      className={`absolute  bottom-0 z-20 group-hover:block bottom-0 left-0 right-0 bg-white cursor-pointer ${
-                        hoveredIndex === index
-                          ? "transition ease-in-out 	duration-800 bg-opacity-80"
-                          : ""
-                      }    p-2 text-center `}
-                      onClick={() => {
-                        setPopUpCard(true);
-                      }}
-                    >
-                      Quick View
-                    </div>
-                  )}
+
+                  <div
+                    className={`absolute hidden group-hover:block bottom-0 z-20 group-hover:block bottom-0 left-0 right-0 bg-white cursor-pointer ${
+                      hoveredIndex === index
+                        ? "transition ease-in-out duration-800 bg-opacity-80"
+                        : ""
+                    }    p-2 text-center `}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setpopUp(true);
+
+                      setProductDetails(product);
+
+                      setCardId(product?.productId);
+                    }}
+                  >
+                    Quick View
+                  </div>
                 </div>
                 {/* product description */}
-                <div className="mt-2 text-lg flex flex-col items-center">
+                <div className="mt-2 -ml-16 text-lg flex flex-col items-center">
                   <div className="">{product.productCategory}</div>
                   <div className="  ">{product.productPrice}</div>
                 </div>
@@ -172,6 +185,11 @@ const Rugs = () => {
           {/* card section */}
         </div>
       </div>
+      {popUp && (
+        <div className="">
+          <PopUpCard productDetails={productDetails} />
+        </div>
+      )}
     </div>
   );
 };

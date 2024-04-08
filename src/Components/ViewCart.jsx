@@ -4,10 +4,13 @@ import { useAtom } from "jotai";
 import { FiMinus } from "react-icons/fi";
 import { GoPlus } from "react-icons/go";
 import { RxCross2 } from "react-icons/rx";
+import emailjs from "@emailjs/browser";
+import toast from "react-hot-toast";
 
 const ViewCart = () => {
   const [cartData, setCartData] = useAtom(atomSendCart);
-  const [isLoading, setIsLoading] = useState(false);
+  let sum = cartData?.map((e) => e?.newItem?.productPrice);
+
   const plus = (productId) => {
     const updatedCartData = cartData.map((item) => {
       if (item.newItem.productId === productId) {
@@ -87,11 +90,48 @@ const ViewCart = () => {
     }
     return total.toFixed(2);
   };
-  const handleLoading = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+  // const handleLoading = () => {
+  //   setIsLoading(true);
+  //   setTimeout(() => {
+  //     setIsLoading(false);
+  //   }, 2000);
+  // };
+  const [loading, setLoading] = useState(false);
+
+  const SubmitForm = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    emailjs
+      .send(
+        "service_ky9cixn",
+        "template_l3jqsjw",
+        {
+          item_name: cartData?.map((e) => e?.newItem?.productId),
+          unit_price: cartData?.map((e) => e?.newItem?.productPrice),
+          units: cartData?.length,
+          totalUnit_price:
+            sum.reduce(
+              (accumulator, currentValue) =>
+                accumulator + parseFloat(currentValue),
+              0
+            ) / cartData?.length,
+          grand_total: sum.reduce(
+            (accumulator, currentValue) =>
+              accumulator + parseFloat(currentValue),
+            0
+          ),
+        },
+        "vzkwQZ1uNnSZb2MOd"
+      )
+      .then(() => {
+        setCartData([]);
+        toast("Order Placed successfully, Please check your mail", {
+          duration: 4000,
+          position: "top-right",
+          icon: "👏",
+        });
+        setLoading(false);
+      });
   };
   return (
     <div>
@@ -176,7 +216,7 @@ const ViewCart = () => {
             <div className="text-lg">Delivery charge :</div>
             <div className={`text-lg `}>${deliveryCharge()}</div>
           </div>
-          <div className="text-lg mt-4 cursor-pointer">Delivery address</div>
+          {/* <div className="text-lg mt-4 cursor-pointer">Delivery address</div> */}
           <div className="text-xl mt-[11%] pb-5 mb-3   w-[300px] border-t-[1px] border-black">
             <div className="flex gap-x-[140px] mt-3">
               <div className="text-lg ">Grand total: </div>
@@ -184,11 +224,11 @@ const ViewCart = () => {
             </div>
           </div>
           <div
-            onClick={handleLoading}
-            disabled={isLoading}
+            onClick={SubmitForm}
+            disabled={loading}
             className="mt-10 ml-3 bg-black text-white w-[260px] text-center hover:bg-opacity-70 py-2 cursor-pointer  "
           >
-            {isLoading === true ? "Loading..." : "Checkout"}
+            {loading === true ? "Loading..." : "Checkout"}
           </div>
         </div>
       </div>
