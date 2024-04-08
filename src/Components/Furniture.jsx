@@ -22,7 +22,7 @@ const Furniture = () => {
   const [prevProductLength, setPrevProductLength] = useState(0);
   const [getImageData, setGetImageData] = useState();
   const [popUp, setpopUp] = useAtom(cardRender);
-  const [cardId, setCardId] = useAtom(cardDetails);
+  const [, setCardId] = useAtom(cardDetails);
   const [productDetails, setProductDetails] = useState([]);
   const [, setProductInfo] = useAtom(atomProductInfo);
   const [, setCartId] = useAtom(atomCartId);
@@ -31,8 +31,6 @@ const Furniture = () => {
     axios
       .get("/Data.json")
       .then((response) => {
-        // setGetData(response?.data);
-
         setPrevProductLength(() => {
           const filteredData = response?.data.filter(
             (product) =>
@@ -135,7 +133,7 @@ const Furniture = () => {
       <div className="grid grid-cols-3 gap-y-8   ">
         {getImageData?.map((product, index) => (
           <div key={product?.productId} className=" relative ">
-            <div className="relative w-[85%] ">
+            <div className="relative w-[85%] group ">
               <img
                 src={
                   hoveredIndex === index ? product.imageTwo : product.imageOne
@@ -160,27 +158,25 @@ const Furniture = () => {
                 </div>
               )}
 
-              {hoveredIndex === index && (
-                <div className="">
-                  <div
-                    className=" absolute z-20 cursor-pointer bottom-0 left-0 right-0 bg-white bg-opacity-60 p-2 text-center "
-                    onClick={(e) => {
-                      e.stopPropagation();
+              <div className=" hidden group-hover:block">
+                <div
+                  className=" absolute z-20 cursor-pointer bottom-0 left-0 right-0 bg-white bg-opacity-60 p-2 text-center "
+                  onClick={(e) => {
+                    e.stopPropagation();
 
-                      setpopUp(true);
+                    setpopUp(true);
 
-                      setProductDetails(product);
+                    setProductDetails(product);
 
-                      setCardId(product?.productId);
-                    }}
-                  >
-                    Quick View
-                  </div>
+                    setCardId(product?.productId);
+                  }}
+                >
+                  Quick View
                 </div>
-              )}
+              </div>
             </div>
             {/* product description */}
-            <div className="mt-2 text-lg flex flex-col items-center ">
+            <div className="mt-2 -ml-16 text-lg flex flex-col items-center ">
               <div className="">{product.productCategory}</div>
               <div className=" ">{product.productPrice}</div>
             </div>

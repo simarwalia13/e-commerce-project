@@ -125,8 +125,8 @@ const ShopAll = () => {
 
       <div className="grid grid-cols-3 gap-y-[50px]  ">
         {getImageData?.map((product, index) => (
-          <div key={product?.productId} className=" relative ">
-            <div className="relative w-[85%] ">
+          <div key={product?.productId} className=" relative   ">
+            <div className="relative w-[85%] group">
               <img
                 src={
                   hoveredIndex === index ? product.imageTwo : product.imageOne
@@ -159,8 +159,9 @@ const ShopAll = () => {
                   hoveredIndex === index
                     ? "transition ease-in-out 	duration-800 bg-opacity-80"
                     : ""
-                }   pointer-events-none p-2 text-center `}
+                }    p-2 text-center `}
                 onClick={(e) => {
+                  e.stopPropagation();
                   setpopUp(true);
 
                   setProductDetails(product);
@@ -173,7 +174,7 @@ const ShopAll = () => {
               {/* )} */}
             </div>
             {/* product description */}
-            <div className="mt-2 text-lg flex flex-col items-center">
+            <div className="mt-2 -ml-16 text-lg flex flex-col items-center">
               <div className="">{product.productCategory}</div>
               <div className="  ">{product.productPrice}</div>
             </div>
@@ -181,7 +182,7 @@ const ShopAll = () => {
         ))}
       </div>
       {/* card section */}
-      {popUp === true && (
+      {popUp && (
         <div className="">
           <PopUpCard productDetails={productDetails} />
         </div>

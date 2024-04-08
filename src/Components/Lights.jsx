@@ -132,7 +132,7 @@ const Lights = () => {
         <div className="grid grid-cols-3 gap-y-8   ">
           {getImageData?.map((product, index) => (
             <div key={product?.productId} className=" relative ">
-              <div className="relative w-[85%] ">
+              <div className="relative w-[85%] group">
                 <img
                   src={
                     hoveredIndex === product?.productId
@@ -159,27 +159,25 @@ const Lights = () => {
                   </div>
                 )}
 
-                {hoveredIndex === index && (
-                  <button
-                    className={`absolute bottom-0 left-0 right-0 bg-white  ${
-                      hoveredIndex === product.productId ? " bg-opacity-80" : ""
-                    }    p-2 text-center `}
-                    onClick={(e) => {
-                      e.stopPropagation();
+                <button
+                  className={`absolute hidden group-hover:block bottom-0 left-0 right-0 bg-white  ${
+                    hoveredIndex === product.productId ? " bg-opacity-80" : ""
+                  }    p-2 text-center `}
+                  onClick={(e) => {
+                    e.stopPropagation();
 
-                      setpopUp(true);
+                    setpopUp(true);
 
-                      setProductDetails(product);
+                    setProductDetails(product);
 
-                      setCardId(product?.productId);
-                    }}
-                  >
-                    Quick View
-                  </button>
-                )}
+                    setCardId(product?.productId);
+                  }}
+                >
+                  Quick View
+                </button>
               </div>
               {/* product description */}
-              <div className="mt-2 text-lg flex flex-col items-center">
+              <div className="mt-2 text-lg flex -ml-16 flex-col items-center">
                 <div className="">{product.productCategory}</div>
                 <div className="  ">{product.productPrice}</div>
               </div>

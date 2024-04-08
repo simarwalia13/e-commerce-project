@@ -22,22 +22,6 @@ const Contact = () => {
   const SubmitForm = (e) => {
     e.preventDefault();
     setLoading(true);
-    // setstoreFormData((data) => [
-    //   ...data,
-    //   {
-    //     firstname,
-    //     lastname,
-    //     email,
-    //     phone,
-    //     textmessage,
-    //     id:
-    //       (firstname,
-    //       lastname,
-    //       email,
-    //       phone,
-    //       textmessage + Math.floor(Math.random() * 10000000)),
-    //   },
-    // ]);
     emailjs
       .send(
         "service_ky9cixn",
