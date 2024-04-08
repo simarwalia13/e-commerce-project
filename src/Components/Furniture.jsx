@@ -186,7 +186,7 @@ const Furniture = () => {
               </div>
             </div>
             {/* product description */}
-            <div className="mt-2 text-lg flex flex-col items-center ">
+            <div className="mt-2 -ml-16 text-lg flex flex-col items-center ">
               <div className="">{product.productCategory}</div>
               <div className=" ">{product.productPrice}</div>
             </div>

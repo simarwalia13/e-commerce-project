@@ -141,8 +141,13 @@ const ShopAll = () => {
 
       <div className="grid grid-cols-3 gap-y-[50px] select-none  ">
         {getImageData?.map((product, index) => (
+<<<<<<< HEAD
           <div key={product.productId} className="  ">
             <div className="relative w-[85%] ">
+=======
+          <div key={product?.productId} className=" relative   ">
+            <div className="relative w-[85%] group">
+>>>>>>> 6fb56a8314b846ebd4d552c46b17a3cf04446a9e
               <img
                 src={
                   hoveredIndex === index ? product.imageTwo : product.imageOne
@@ -176,9 +181,20 @@ const ShopAll = () => {
                 </div>
               )}
 
+<<<<<<< HEAD
               <div
                 className="absolute cursor-pointer z-20 group-hover:block bottom-0 left-0 right-0 bg-white bg-opacity-70 p-2 text-center"
+=======
+              {/* {hoveredIndex === index && ( */}
+              <button
+                className={`absolute hidden group-hover:block bottom-0 left-0 right-0 bg-white  ${
+                  hoveredIndex === index
+                    ? "transition ease-in-out 	duration-800 bg-opacity-80"
+                    : ""
+                }    p-2 text-center `}
+>>>>>>> 6fb56a8314b846ebd4d552c46b17a3cf04446a9e
                 onClick={(e) => {
+                  e.stopPropagation();
                   setpopUp(true);
 
                   setProductDetails(product);
@@ -190,7 +206,7 @@ const ShopAll = () => {
               </div>
             </div>
             {/* product description */}
-            <div className="mt-2 text-lg flex flex-col items-center">
+            <div className="mt-2 -ml-16 text-lg flex flex-col items-center">
               <div className="">{product.productCategory}</div>
               <div className="  ">{product.productPrice}</div>
             </div>
@@ -198,7 +214,7 @@ const ShopAll = () => {
         ))}
       </div>
       {/* card section */}
-      {popUp === true && (
+      {popUp && (
         <div className="">
           <PopUpCard productDetails={productDetails} />
         </div>

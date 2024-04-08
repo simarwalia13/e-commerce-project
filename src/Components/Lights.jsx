@@ -132,7 +132,7 @@ const Lights = () => {
         <div className="grid grid-cols-3 gap-y-8   ">
           {getImageData?.map((product, index) => (
             <div key={product?.productId} className=" relative ">
-              <div className="relative w-[85%] ">
+              <div className="relative w-[85%] group">
                 <img
                   src={
                     hoveredIndex === product?.productId
@@ -183,7 +183,7 @@ const Lights = () => {
                 </div>
               </div>
               {/* product description */}
-              <div className="mt-2 text-lg flex flex-col items-center">
+              <div className="mt-2 text-lg flex -ml-16 flex-col items-center">
                 <div className="">{product.productCategory}</div>
                 <div className="  ">{product.productPrice}</div>
               </div>

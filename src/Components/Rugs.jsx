@@ -2,14 +2,19 @@ import axios from "axios";
 import { useAtom } from "jotai";
 import React, { useEffect, useState } from "react";
 import {
+<<<<<<< HEAD
   atomCartId,
   atomPrice,
   atomProductInfo,
+=======
+  atomPrice,
+>>>>>>> 6fb56a8314b846ebd4d552c46b17a3cf04446a9e
   cardDetails,
   cardRender,
   priceChangeStopAtom,
 } from "./store";
 import { RxCross2 } from "react-icons/rx";
+import PopUpCard from "./PopUpCard";
 
 import PopUpCard from "./PopUpCard";
 import { useNavigate } from "react-router-dom";
@@ -24,10 +29,16 @@ const Rugs = () => {
   const [prevProductLength, setPrevProductLength] = useState(0);
   const [getImageData, setGetImageData] = useState();
   const [popUp, setpopUp] = useAtom(cardRender);
+<<<<<<< HEAD
   const [, setCardId] = useAtom(cardDetails);
   const [productDetails, setProductDetails] = useState([]);
   const [, setProductInfo] = useAtom(atomProductInfo);
   const [, setCartId] = useAtom(atomCartId);
+=======
+  const [productDetails, setProductDetails] = useState([]);
+  const [, setCardId] = useAtom(cardDetails);
+
+>>>>>>> 6fb56a8314b846ebd4d552c46b17a3cf04446a9e
   useEffect(() => {
     axios
       .get("/Data.json")
@@ -135,7 +146,7 @@ const Rugs = () => {
           <div className="grid grid-cols-3 gap-y-12  ">
             {getImageData?.map((product, index) => (
               <div key={product?.productId} className=" ">
-                <div className="relative w-[85%] ">
+                <div className="relative w-[85%] group">
                   <img
                     src={
                       hoveredIndex === index
@@ -170,16 +181,27 @@ const Rugs = () => {
                       Bestseller
                     </div>
                   )}
+<<<<<<< HEAD
                   {/* {hoveredIndex === index && ( */}
                   <div
                     className={`absolute  bottom-0 z-20 group-hover:block bottom-0 left-0 right-0 bg-white cursor-pointer ${
                       hoveredIndex === index
                         ? "transition ease-in-out 	duration-800 bg-opacity-80"
+=======
+
+                  <div
+                    className={`absolute hidden group-hover:block bottom-0 z-20 group-hover:block bottom-0 left-0 right-0 bg-white cursor-pointer ${
+                      hoveredIndex === index
+                        ? "transition ease-in-out duration-800 bg-opacity-80"
+>>>>>>> 6fb56a8314b846ebd4d552c46b17a3cf04446a9e
                         : ""
                     }    p-2 text-center `}
                     onClick={(e) => {
                       e.stopPropagation();
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6fb56a8314b846ebd4d552c46b17a3cf04446a9e
                       setpopUp(true);
 
                       setProductDetails(product);
@@ -189,10 +211,13 @@ const Rugs = () => {
                   >
                     Quick View
                   </div>
+<<<<<<< HEAD
                   {/* )} */}
+=======
+>>>>>>> 6fb56a8314b846ebd4d552c46b17a3cf04446a9e
                 </div>
                 {/* product description */}
-                <div className="mt-2 text-lg flex flex-col items-center">
+                <div className="mt-2 -ml-16 text-lg flex flex-col items-center">
                   <div className="">{product.productCategory}</div>
                   <div className="  ">{product.productPrice}</div>
                 </div>
@@ -208,6 +233,11 @@ const Rugs = () => {
           </div>
         )}
       </div>
+      {popUp && (
+        <div className="">
+          <PopUpCard productDetails={productDetails} />
+        </div>
+      )}
     </div>
   );
 };
