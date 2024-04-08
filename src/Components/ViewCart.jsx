@@ -7,7 +7,6 @@ import { RxCross2 } from "react-icons/rx";
 
 const ViewCart = () => {
   const [cartData, setCartData] = useAtom(atomSendCart);
-  console.log("cartData", cartData);
   const [isLoading, setIsLoading] = useState(false);
   const plus = (productId) => {
     const updatedCartData = cartData.map((item) => {
