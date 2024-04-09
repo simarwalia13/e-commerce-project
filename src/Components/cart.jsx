@@ -423,50 +423,6 @@ const Cart = () => {
         {buyItem && <Buy />}
       </div>
     </motion.div>
-=======
-        <Swiper
-          modules={[Virtual, Navigation, Pagination]}
-          onSwiper={setSwiperRef}
-          slidesPerView={3}
-          centeredSlides={true}
-          spaceBetween={30}
-          pagination={{
-            type: "fraction",
-          }}
-          navigation={true}
-          virtual
-        >
-          <div className="flex items-center mt-10">
-            <HiOutlineChevronLeft size={170} className=" mr-4" />
-            <div className="  flex flex-row gap-x-8 overflow-hidden">
-              {data.map((item, index) => (
-                <SwiperSlide key={item.productId} virtualIndex={index}>
-                  <img
-                    key={item.productId}
-                    virtualIndex={index}
-                    src={
-                      hoveredIndex === item.productId
-                        ? item.imageTwo
-                        : item.imageOne
-                    }
-                    alt=""
-                    className={`w-[18%] border border-red-400  transition-transform duration-300 transform`}
-                    onMouseEnter={() => setHoveredIndex(item.productId)}
-                    onMouseLeave={() => setHoveredIndex(null)}
-                    onClick={() => handleView(item.productId, index)}
-                  />
-                </SwiperSlide>
-              ))}
-            </div>
-            <HiOutlineChevronRight
-              size={170}
-              className="cursor-pointer ml-4 border bor "
-            />
-          </div>
-        </Swiper>
-      </div> */}
-    </div>
->>>>>>> 6fb56a8314b846ebd4d552c46b17a3cf04446a9e
   );
 };
 
