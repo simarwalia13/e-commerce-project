@@ -37,19 +37,22 @@ const FooterSection = () => {
   };
 
   return (
-    <div className="bg-[#3F5C58] md:w-[100%] min-[320px]:h-full mt-[60px]   pb-[50px]">
-      <div className=" border-1 border-red-600 flex gap-x-[100px] lg:gap-x-[40px] py-[60px]">
-        <div className="flex flex-col gap-y-[30px] w-fit   px-[50px]">
-          <p className="text-xl text-white font-md ">
+    <div className="bg-[#3F5C58] w-[100%]  mt-[60px]   pb-[50px]">
+      <div className="  md:flex   gap-x-[40px] py-[60px]">
+        <div className="flex flex-col gap-y-[30px] w-fit   pl-[50px] md:pl-[30px] lg:pl-[60px] sm:pl-[200px]  mb-9 sm:mb-9">
+          <p className="text-[17px] sm:text-[18px] text-white font-md lg:text-[22px]  md:text-[17px] ">
             Sign Up to Our Newsletter
           </p>
           <form className="" onSubmit={handleSubmit}>
             <div className="flex w-fit flex-col gap-y-[15px]">
-              <label className="text-lg text-white" htmlFor="email">
+              <label
+                className="text-[15px] lg:text-[20px] md:text-[17px] text-white"
+                htmlFor="email"
+              >
                 Email*
               </label>
               <input
-                className={`bg-[#3F5C58] border-[1px] border-white focus:bg-[#3F5C58] text-white text-lg hover:outline-none  pr-[140px] xl:pr-[100px] pl-[10px] w-fit text-left py-[6px] 
+                className={`bg-[#3F5C58] border-[1px] border-white focus:bg-[#3F5C58] text-white text-lg hover:outline-none pr-[80px] lg:pr-[140px] md:pr-[50px]  pl-[10px] w-fit text-left py-[6px] 
       `}
                 type="text"
                 id="email"
@@ -59,7 +62,7 @@ const FooterSection = () => {
               />
             </div>
             <div
-              className=" bg-[#3F5C58] border w-fit text-lg xl:text-md text-white border-white px-5 py-[7px] hover:bg-white hover:text-black cursor-pointer"
+              className=" bg-[#3F5C58] border sm:text-[14px] text-[14px] w-fit text-[10px] xl:text-md lg:text-[16px] md:text-[13px] text-white border-white lg:px-5 md:px-4 px-4 py-[7px] hover:bg-white hover:text-black cursor-pointer"
               type="submit"
             >
               Submit
@@ -67,15 +70,17 @@ const FooterSection = () => {
           </form>
         </div>
 
-        <div className="flex flex-row  justify-end  gap-x-[170px] xl:gap-x-[100px] w-full mr-10">
+        <div className="flex flex-row  sm:justify-center md:justify-end  xl:gap-x-[150px] md:gap-x-[30px] sm:gap-x-[70px] gap-x-[40px] w-full sm:ml-0 ml-[48px] mr-10">
           {/* 1st line buttons */}
-          <div className="flex  flex-col w-fit  gap-y-1 px-[30px] ">
-            <div className="text-white text-lg cursor-pointer mb-4">Shop</div>
+          <div className="flex  flex-col w-fit   gap-y-1  ">
+            <div className="text-white  cursor-pointer font-semibold mb-4 lg:text-[18px] md:text-[16px] sm:text-[17px] text-[17px]">
+              Shop
+            </div>
             {footerButton1?.map((product) => (
               <div
                 onClick={() => handleNavigate(product?.url)}
                 key={product?.url}
-                className="text-white text-md cursor-pointer"
+                className="text-white lg:text-[16px] md:text-[13px] sm:text-[14px] text-[13px] cursor-pointer"
               >
                 {product?.tab}
               </div>
@@ -83,22 +88,22 @@ const FooterSection = () => {
           </div>
 
           {/* 2nd line button */}
-          <div className="flex border border-blue-500 flex-col w-fit border-0 gap-y-1 px-[30px]">
-            <div className="text-white text-lg cursor-pointer mb-4">
+          <div className="flex  flex-col w-fit  gap-y-1 ">
+            <div className="text-white font-semibold  cursor-pointer mb-4 lg:text-[18px] md:text-[16px] sm:text-[17px] text-[17px]">
               Customer Service
             </div>
             {footerButton2?.map((product) => (
-              <div className="text-white text-md cursor-pointer">
+              <div className="text-white text-md cursor-pointer lg:text-[16px] md:text-[13px] sm:text-[14px] text-[13px]">
                 {product?.tab}
               </div>
             ))}
           </div>
 
           {/* 3rd line buttons */}
-          <div className="flex  flex-col w-fit border-0 gap-y-1 px-[30px] ">
+          <div className="flex  flex-col w-fit  gap-y-1  ">
             <div
               onClick={() => navigate("/")}
-              className="text-white text-lg cursor-pointer mb-4"
+              className="text-white  font-semibold cursor-pointer mb-4 lg:text-[18px] md:text-[16px] sm:text-[17px] text-[17px]"
             >
               About After.noon
             </div>
@@ -106,7 +111,7 @@ const FooterSection = () => {
               <div
                 key={product?.url}
                 onClick={() => handleNavigate(product?.url)}
-                className="text-white text-md cursor-pointer"
+                className="text-white text-md cursor-pointer lg:text-[16px] md:text-[13px] sm:text-[14px] text-[13px]"
               >
                 {product?.tab}
               </div>
@@ -116,16 +121,16 @@ const FooterSection = () => {
       </div>
 
       {/* footer bottom */}
-      <div className="border-0  flex justify-between px-[50px]  items-center mt-[60px]">
-        <div className="flex gap-x-[50px] border-0  w-fit">
+      <div className="border-0  sm:flex justify-between px-[50px]  items-center md:mt-[0px] sm:mt-[0px]">
+        <div className="sm:flex md:gap-x-[50px] sm:gap-x-[30px]   border-0  w-fit">
           <div className="border-0  w-fit flex justify-center items-center gap-x-[10px]">
             <svg
-              className="text-white"
+              className="text-white lg:h-10 md:h-8 h-6"
               preserveAspectRatio="xMidYMid meet"
               data-bbox="28.149 47.47 143.701 105.06"
               viewBox="28.149 47.47 143.701 105.06"
-              height="42"
-              width="42"
+              height=""
+              width=""
               xmlns="http://www.w3.org/2000/svg"
               data-type="color"
               role="img"
@@ -144,18 +149,18 @@ const FooterSection = () => {
             </svg>
             <div
               onClick={() => navigate("/")}
-              className="font-semibold text-2xl cursor-pointer text-white xl:text-xl "
+              className="font-semibold  xl:text-[22px] lg:text-[20px] md:text-[18px] cursor-pointer text-white text-[17px]  "
             >
               After.noon
             </div>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col sm:mt-0 mt-5">
             {/* address part */}
-            <div className="text-md text-white xl:text-sm">
+            <div className="text-[13px] text-white xl:text-sm xl:text-[16px] sm:text-[12px] lg:text-[14px] md:text-[13px]">
               500 Terry Francine Street, San Francisco, CA 94158
             </div>
             {/* ph no & gmail */}
-            <div className="text-md text-white xl:text-sm">
+            <div className="text-[13px] text-white  xl:text-[16px] lg:text-[14px] sm:text-[12px] md:text-[13px]">
               123-456-7890 / info@my-domain.com
             </div>
           </div>
@@ -163,7 +168,7 @@ const FooterSection = () => {
 
         {/* footer logos */}
 
-        <div className=" flex gap-x-2 pr-5">
+        <div className=" flex gap-x-2 sm:mt-0 mt-4 pr-5">
           <BiLogoFacebook size={22} color="white" />
           <FaInstagram size={22} color="white" />
           <TiSocialTwitter size={23} color="white" />

@@ -12,12 +12,12 @@ const TopMostNavbar = () => {
   return (
     <div>
       <div className="  ">
-        <div className="flex justify-around  ">
+        <div className="flex justify-around border border-blue-500">
           {topMostNavbarData?.map((elm) => (
             <button
               key={elm?.url}
               onClick={() => handleNavigate(elm?.url)}
-              className="border-r-[1px] border-white bg-teal-900   min-[425px]:w-[100%] max-[1024px]:w-full  text-white py-[6px] "
+              className="border-r-[1px] border-white bg-teal-900  lg:text-[16px] md:text-[12px] sm:text-[9px] w-full text-[8px]  text-white py-[6px] "
             >
               {elm?.discount}
             </button>

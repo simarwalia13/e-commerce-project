@@ -13,14 +13,15 @@ const Navbar = () => {
     <div>
       <div className="  ">
         <div className="bg-[#ffffff] py-[13px]  w-full   ">
-          <div className="  w-full gap-x-[17px]  px-[45px] flex items-center justify-between ">
-            <div className="border-0 flex justify-center items-center gap-x-2">
+          <div className="  w-full gap-x-[17px]  px-[45px] sm:flex sm:items-center justify-between ">
+            <div className=" flex justify-center w-fit items-center gap-x-2  sm:gap-x-2 ">
               <svg
+                className=" lg:h-11 md:h-9 h-6 sm:h-7"
                 preserveAspectRatio="xMidYMid meet"
                 data-bbox="28.149 47.47 143.701 105.06"
                 viewBox="28.149 47.47 143.701 105.06"
-                height="42"
-                width="42"
+                height=""
+                width=""
                 xmlns="http://www.w3.org/2000/svg"
                 data-type="color"
                 role="img"
@@ -39,17 +40,17 @@ const Navbar = () => {
               </svg>
               <div
                 onClick={() => navigate("/")}
-                className="font-semibold text-2xl text-black cursor-pointer"
+                className="font-semibold lg:text-2xl text-black cursor-pointer md:text-xl sm:text-lg"
               >
                 After.noon
               </div>
             </div>
-            <div className=" w-fit  flex flex-row  gap-x-[30px]">
+            <div className=" w-fit  flex flex-row gap-x-3  md:gap-x-[35px] sm:gap-x-[20px]">
               {data?.map((val) => (
                 <div
                   key={val?.url}
                   onClick={() => handleNavigation(val?.url)}
-                  className="text-[#2E3238] text-md  cursor-pointer "
+                  className="text-[#2E3238] text-md  cursor-pointer xl:text-[17px]  lg:text-[14px] md:text-[13px] sm:text-[12px] text-[11px] sm:mt-0 mt-3"
                 >
                   {val.tab}
                 </div>

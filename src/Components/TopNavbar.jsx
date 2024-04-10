@@ -29,8 +29,10 @@ const TopNavbar = () => {
 
           <div className="flex items-center gap-x-5 ">
             <div className="border-red-300 flex items-center gap-x-2">
-              <IoPersonCircleSharp size={32} />
-              <button className="text-md select-none">Login</button>
+              <IoPersonCircleSharp size={32} className=" " />
+              <button className="lg:text-[18px] select-none md:text-[14px] sm:text-[13px] text-[11px]">
+                Login
+              </button>
             </div>
             <div className="flex gap-x-2">
               <div onClick={handleCartClick} className="cursor-pointer">
